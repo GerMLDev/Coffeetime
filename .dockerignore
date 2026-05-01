@@ -1,0 +1,15 @@
+vendor
+node_modules
+npm-debug.log
+yarn-error.log
+.env
+.env.backup
+.env.production
+.git
+.gitignore
+docker-compose.override.yml
+/storage/*.key
+/storage/pail
+/public/build
+/public/hot
+/public/storage
