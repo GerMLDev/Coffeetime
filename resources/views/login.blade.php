@@ -8,12 +8,10 @@
 </head>
 
 <body class="bg-dark">
-    <!-- Cambiado width fijo por col-md-4 para que sea responsivo -->
     <div class="container my-5 bg-light p-4 rounded shadow-lg col-11 col-sm-8 col-md-5 col-lg-4">
         
-        <!-- Botón Volver (mejorado con d-flex para alinearlo a la derecha) -->
         <div class="d-flex justify-content-end mb-3">
-            <a href="{{ route('general') }}" class="btn btn-outline-secondary btn-sm">Volver</a>
+            <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-sm">Volver</a>
         </div>
 
         <h2 class="text-center mb-4">Acceso al Sistema</h2>
@@ -33,7 +31,6 @@
 
         <hr class="my-4">
 
-        <!-- BOTONES INFERIORES: Usamos una fila con columnas para que no se desborden -->
         <div class="row g-2">
             <div class="col-12 col-sm-6">
                 <a href="{{ route('loginusuario') }}" class="btn btn-success btn-sm w-100">Registrarse</a>

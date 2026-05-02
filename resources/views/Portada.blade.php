@@ -11,14 +11,15 @@
 
 <body>
     <header>    
+
     </header>
     <div id="contenedor">
         <nav>
             <ul id="barranav">
-                <li><a href="{{route('general')}}">Inicio</a></li>
-                {{-- <li><a href="{{route('eventos')}}">Eventos</a></li>
+                <li><a href="{{route('home')}}">Portada</a></li>
+                <li><a href="{{route('eventos')}}">Eventos</a></li>
                 <li><a href="{{route('recursos')}}">Recursos</a></li>
-                <li><a href="{{route('informate')}}">Infórmate</a></li> --}}
+                <li><a href="{{route('informate')}}">Infórmate</a></li>
             </ul>
             <div>
                 <ul>

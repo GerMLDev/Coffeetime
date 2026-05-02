@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [ControladorIndex::class, 'VistaLogin'])->name('login');
 Route::post('/login', [ControladorIndex::class, 'Autenticarse']);
 Route::get('/login/api', [ControladorUsuario::class, 'MostrarApi'])->name('api');
-Route::get('/general', [ControladorIndex::class, 'General'])->name('general');
+Route::get('/home', [ControladorIndex::class, 'Home'])->name('home');
+Route::get('/eventos', [ControladorIndex::class, 'Eventos'])->name('eventos');
+Route::get('/recursos', [ControladorIndex::class, 'Recursos'])->name('recursos');
+Route::get('/informate', [ControladorIndex::class, 'Informate'])->name('informate');
 
 
 //Registro Usuario del Login
@@ -34,17 +37,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 
     //GESTIONAR REGISTROS (CRUD)
- //Usuario
- Route::get('/gestionarusuario', [ControladorUsuario::class, 'mostrarData'])->name('gestionarusuario');
- Route::get('/gestionarusuario/recargar', [ControladorUsuario::class, 'recargar'])->name('usuario.recargar');
+    //Usuario
+    Route::get('/gestionarusuario', [ControladorUsuario::class, 'mostrarData'])->name('gestionarusuario');
+    Route::get('/gestionarusuario/recargar', [ControladorUsuario::class, 'recargar'])->name('usuario.recargar');
 
 
- Route::get('/gestionarusuario/editar/{id}', [ControladorUsuario::class, 'editar'])->where(array('id' => '[0-9]+'))->name('usuario.editar');
- Route::post('/gestionarusuario/editar/{id}', [ControladorUsuario::class, 'actualizar'])->where(array('id' => '[0-9]*'))->name('usuario.actualizar');
+    Route::get('/gestionarusuario/editar/{id}', [ControladorUsuario::class, 'editar'])->where(array('id' => '[0-9]+'))->name('usuario.editar');
+    Route::post('/gestionarusuario/editar/{id}', [ControladorUsuario::class, 'actualizar'])->where(array('id' => '[0-9]*'))->name('usuario.actualizar');
 
- Route::delete('/gestionarusuario/eliminar/{id}', [ControladorUsuario::class, 'eliminarData'])->where(array('id' => '[0-9]*'))->name('usuario.eliminar');
-
-
+    Route::delete('/gestionarusuario/eliminar/{id}', [ControladorUsuario::class, 'eliminarData'])->where(array('id' => '[0-9]*'))->name('usuario.eliminar');
 });
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -52,7 +53,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:admin,profesor'])->group(function () {
     //INICIO
-    Route::get('/', [ControladorIndex::class, 'VistaIndex'])->name('inicio');
+    Route::get('/', [ControladorIndex::class, 'VistaGestor'])->name('gestor');
     Route::get('/dashboard', [ControladorAlumno::class, 'dashboardNivel'])->name('dashboardNivel');
     Route::get('/dashboardProfesor', [ControladorAlumno::class, 'dashboardProfesor'])->name('dashboardProfesor');
 
@@ -86,6 +87,4 @@ Route::middleware(['auth', 'role:admin,profesor'])->group(function () {
 
 
     Route::delete('/gestionaralumno/eliminar/{id}', [ControladorAlumno::class, 'eliminarData'])->where(array('id' => '[0-9]*'))->name('alumno.eliminar');
-
-       
 });

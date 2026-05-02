@@ -15,11 +15,21 @@ use Illuminate\Support\Facades\Session;
 class ControladorIndex extends Controller
 {
 
-function General(){
-    return view('PaginaPrincipal');
+function Home(){
+    return view('Portada');
 }
-function VistaIndex(){
-    return view('index');
+function Eventos(){
+    return view('Eventos');
+}
+function Recursos(){
+    return view('Recursos');
+}
+function Informate(){
+    return view('Informate');
+}
+
+function VistaGestor(){
+    return view('Gestor');
 }
 
 function AñadirProfesor(){

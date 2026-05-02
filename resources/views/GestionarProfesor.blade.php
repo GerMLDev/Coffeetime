@@ -32,7 +32,7 @@
         </form>
         <form action="">
             <button type="submit" class="btn btn-outline-secondary w-300" style="float: right"
-                formaction="{{ route('inicio') }}">Volver</button>
+                formaction="{{ route('gestor') }}">Volver</button>
         </form>
         <hr>
 
