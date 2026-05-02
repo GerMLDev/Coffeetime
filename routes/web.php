@@ -52,7 +52,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:admin,profesor'])->group(function () {
     //INICIO
-    Route::get('/', [ControladorIndex::class, 'VistaGestor'])->name('gestor');
+    Route::get('/gestor', [ControladorIndex::class, 'VistaGestor'])->name('gestor');
     Route::get('/dashboard', [ControladorAlumno::class, 'dashboardNivel'])->name('dashboardNivel');
     Route::get('/dashboardProfesor', [ControladorAlumno::class, 'dashboardProfesor'])->name('dashboardProfesor');
 
