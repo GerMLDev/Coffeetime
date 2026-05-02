@@ -6,14 +6,13 @@ use App\Http\Controllers\ControladorProfesor;
 use App\Http\Controllers\ControladorUsuario;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/login', [ControladorIndex::class, 'VistaLogin'])->name('login');
-Route::post('/login', [ControladorIndex::class, 'Autenticarse']);
-Route::get('/login/api', [ControladorUsuario::class, 'MostrarApi'])->name('api');
-Route::get('/home', [ControladorIndex::class, 'Home'])->name('home');
+Route::get('/', [ControladorIndex::class, 'Home'])->name('home');
 Route::get('/eventos', [ControladorIndex::class, 'Eventos'])->name('eventos');
 Route::get('/recursos', [ControladorIndex::class, 'Recursos'])->name('recursos');
 Route::get('/informate', [ControladorIndex::class, 'Informate'])->name('informate');
-
+Route::get('/login', [ControladorIndex::class, 'VistaLogin'])->name('login');
+Route::post('/login', [ControladorIndex::class, 'Autenticarse']);
+Route::get('/login/api', [ControladorUsuario::class, 'MostrarApi'])->name('api');
 
 //Registro Usuario del Login
 Route::get('/login/loginagregarusuario', [ControladorIndex::class, 'LoginAñadirUsuario'])->name('loginusuario');
