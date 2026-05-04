@@ -4,12 +4,14 @@ use App\Http\Controllers\ControladorAlumno;
 use App\Http\Controllers\ControladorIndex;
 use App\Http\Controllers\ControladorProfesor;
 use App\Http\Controllers\ControladorUsuario;
+use App\Http\Controllers\ControladorEvento;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ControladorIndex::class, 'Home'])->name('home');
-Route::get('/eventos', [ControladorIndex::class, 'Eventos'])->name('eventos');
 Route::get('/recursos', [ControladorIndex::class, 'Recursos'])->name('recursos');
 Route::get('/informate', [ControladorIndex::class, 'Informate'])->name('informate');
+Route::get('/eventos', [ControladorEvento::class, 'mostrarData'])->name('eventos');
+Route::get('/eventos/recargar', [ControladorEvento::class, 'recargar'])->name('evento.recargar');
 Route::get('/login', [ControladorIndex::class, 'VistaLogin'])->name('login');
 Route::post('/login', [ControladorIndex::class, 'Autenticarse']);
 Route::get('/login/api', [ControladorUsuario::class, 'MostrarApi'])->name('api');
@@ -19,6 +21,12 @@ Route::get('/login/loginagregarusuario', [ControladorIndex::class, 'LoginAñadir
 Route::post('/login/loginagregarusuario/registrousuario', [ControladorUsuario::class, 'RegistroUsuarioLogin'])->name('registrousuariologin');
 
 Route::post('/logout', [ControladorIndex::class, 'CerrarSesion'])->name('logout');
+
+// Rutas autenticadas para inscripción de alumnos
+Route::middleware(['auth'])->group(function () {
+    Route::post('/eventos/{id}/inscribir', [ControladorEvento::class, 'inscribir'])->name('evento.inscribir');
+    Route::delete('/eventos/{id}/cancelar-inscripcion', [ControladorEvento::class, 'cancelarInscripcion'])->name('evento.cancelar-inscripcion');
+});
 
 //MIDDLEWARE ADMINISTRADOR
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -33,6 +41,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     //Profesor
     Route::get('/agregarprofesor', [ControladorIndex::class, 'AñadirProfesor'])->name('agregarprofe');
     Route::post('agregarprofesor/registroprofe', [ControladorProfesor::class, 'RegistroProfesor'])->name('registroprofe');
+
+
 
 
     //GESTIONAR REGISTROS (CRUD)
@@ -64,6 +74,9 @@ Route::middleware(['auth', 'role:admin,profesor'])->group(function () {
     Route::get('/agregaralumno', [ControladorIndex::class, 'AñadirAlumno'])->name('agregaralumno');
     Route::post('agregaralumno/registroalumno', [ControladorAlumno::class, 'RegistroAlumno'])->name('registroalumno');
 
+    // EVENTOS
+    Route::post('/eventos/registrar', [ControladorEvento::class, 'registrar'])->name('evento.registrar');
+    Route::delete('/eventos/eliminar/{id}', [ControladorEvento::class, 'eliminarData'])->where(['id' => '[0-9]*'])->name('evento.eliminar');
 
     //GESTIONAR REGISTROS (CRUD)
 
@@ -87,3 +100,4 @@ Route::middleware(['auth', 'role:admin,profesor'])->group(function () {
 
     Route::delete('/gestionaralumno/eliminar/{id}', [ControladorAlumno::class, 'eliminarData'])->where(array('id' => '[0-9]*'))->name('alumno.eliminar');
 });
+

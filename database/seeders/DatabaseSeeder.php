@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         $this->call(NivelSeeder::class);
-        $this->call(RolSeeder::class);
-        $this->call(ProfesorSeeder::class);
-
-        $this->call(AlumnoSeeder::class);
+        $this->call(RolSeeder::class); 
         $this->call(UsuarioSeeder::class);
+        $this->call(ProfesorSeeder::class);
+        $this->call(AlumnoSeeder::class);
+       
 
     }
 }

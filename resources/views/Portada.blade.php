@@ -14,8 +14,8 @@
 
     </header>
     <div id="contenedor">
-        <nav>
-            <ul id="barranav">
+        <nav id="barranav">
+            <ul >
                 <li><a href="{{route('home')}}">Portada</a></li>
                 <li><a href="{{route('eventos')}}">Eventos</a></li>
                 <li><a href="{{route('recursos')}}">Recursos</a></li>

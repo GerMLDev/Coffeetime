@@ -4,9 +4,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www/html:delegated
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
       COMPOSER_ALLOW_SUPERUSER: "1"

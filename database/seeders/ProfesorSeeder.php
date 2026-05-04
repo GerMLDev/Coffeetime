@@ -11,7 +11,6 @@ class ProfesorSeeder extends Seeder
 {
     public function run()
     {
-
         DB::table('profesor')->insert([
             [
                 'id' => 1,
@@ -21,10 +20,10 @@ class ProfesorSeeder extends Seeder
                 'dni_profesor' => '12345678A',
                 'usuario_prof' => 'pedrog',
                 'contraseña_prof' => Hash::make('password1'),
+                'idrol' => 2,
+                'idusuario' => 2, 
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                                'idrol' => '2',
-
             ],
             [
                 'id' => 2,
@@ -34,10 +33,10 @@ class ProfesorSeeder extends Seeder
                 'dni_profesor' => '23456789B',
                 'usuario_prof' => 'sergiom',
                 'contraseña_prof' => Hash::make('password2'),
+                'idrol' => 2,
+                'idusuario' => 3,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                                                'idrol' => '2',
-
             ],
             [
                 'id' => 3,
@@ -47,10 +46,10 @@ class ProfesorSeeder extends Seeder
                 'dni_profesor' => '34567890C',
                 'usuario_prof' => 'luciar',
                 'contraseña_prof' => Hash::make('password3'),
+                'idrol' => 2,
+                'idusuario' => 4, 
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                                                'idrol' => '2',
-
             ],
             [
                 'id' => 4,
@@ -60,11 +59,11 @@ class ProfesorSeeder extends Seeder
                 'dni_profesor' => '45678901D',
                 'usuario_prof' => 'elenas',
                 'contraseña_prof' => Hash::make('password4'),
+                'idrol' => 2,
+                'idusuario' => 5, 
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-                                                'idrol' => '2',
-
-            ]
+            ],
         ]);
     }
 }

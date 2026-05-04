@@ -21,9 +21,13 @@ class ControladorUsuario extends Controller
 
         //POR DEFECTO sería el IDRol de usuario de ALUMNO (3) para que pueda registrarse pero no pueda acceder a la gestión de usuarios.
      
-        $usuario->save();
+        if($usuario->save()) {
+            return redirect('/login')->with('success', 'Usuario registrado correctamente.');
+        } else {
+            return redirect('/login')->with('error', 'Error al registrar el usuario, posiblemente el nombre de usuario o email ya están en uso.');
 
-        return redirect('/login')->with('success', 'Usuario registrado correctamente.');
+            //CON JAVASCRIPT EN CLIENTE: HAY QUE CONTROLAR LOS ERRORES DE REGISTRO, POR EJEMPLO SI EL USUARIO O EL EMAIL YA EXISTE EN LA BASE DE DATOS, PARA EVITAR DUPLICADOS Y MOSTRAR UN MENSAJE DE ERROR ADECUADO.
+        }
     }  
     public function RegistroUsuario(Request $request){
 
