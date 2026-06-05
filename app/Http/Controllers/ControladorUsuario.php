@@ -10,62 +10,105 @@ use Illuminate\Support\Facades\Hash;
 class ControladorUsuario extends Controller
 {
 
-    public function RegistroUsuarioLogin(Request $request){
+    public function RegistroUsuarioLogin(Request $request)
+    {
 
-        $usuario= new Usuario();
+    //Validación en servidor
+        $request->validate([
+            'usuario' => 'required|string|max:255|unique:usuario,usuario',
+            'contraseña' => 'required|string|min:6',
+            'email' => 'required|email|max:255|unique:usuario,email',
+            'dni' => 'required|string|max:20|unique:usuario,dni',
+            'idrol' => 'required|integer|exists:rol,id',
+        ]);
+
+
+         //Notificacion de duplicidad
+
+        if (Usuario::where('usuario', $request->usuario)->first()) {
+            return redirect()->back()->with('error', 'El nombre de usuario ya está en uso.');
+        }
+
+        if (Usuario::where('email', $request->email)->first()) {
+            return redirect()->back()->with('error', 'El email ya está registrado.');
+        }
+
+        if (Usuario::where('dni', $request->dni)->first()) {
+            return redirect()->back()->with('error', 'El DNI ya está registrado.');
+        }
+        $usuario = new Usuario();
         $usuario->usuario = $request->usuario;
-        $usuario->contraseña= Hash::make($request->contraseña);
+        $usuario->contraseña = Hash::make($request->contraseña);
         $usuario->email = $request->email;
         $usuario->dni = $request->dni;
-        $usuario->idrol =$request->idrol; 
+        $usuario->idrol = $request->idrol;
 
         //POR DEFECTO sería el IDRol de usuario de ALUMNO (3) para que pueda registrarse pero no pueda acceder a la gestión de usuarios.
-     
-        if($usuario->save()) {
+
+        if ($usuario->save()) {
             return redirect('/login')->with('success', 'Usuario registrado correctamente.');
         } else {
             return redirect('/login')->with('error', 'Error al registrar el usuario, posiblemente el nombre de usuario o email ya están en uso.');
-
-            //CON JAVASCRIPT EN CLIENTE: HAY QUE CONTROLAR LOS ERRORES DE REGISTRO, POR EJEMPLO SI EL USUARIO O EL EMAIL YA EXISTE EN LA BASE DE DATOS, PARA EVITAR DUPLICADOS Y MOSTRAR UN MENSAJE DE ERROR ADECUADO.
         }
-    }  
-    public function RegistroUsuario(Request $request){
+    }
 
-        $usuario= new Usuario();
+
+    public function RegistroUsuario(Request $request)
+    {
+        $request->validate([
+            'usuario' => 'required|string|max:255|unique:usuario,usuario',
+            'contraseña' => 'required|string|min:6',
+            'email' => 'required|email|max:255|unique:usuario,email',
+            'dni' => 'required|string|max:20|unique:usuario,dni',
+            'idrol' => 'required|integer|exists:rol,id',
+        ]);
+        if (Usuario::where('usuario', $request->usuario)->first()) {
+            return redirect()->back()->with('error', 'El nombre de usuario ya está en uso.');
+        }
+
+        if (Usuario::where('email', $request->email)->first()) {
+            return redirect()->back()->with('error', 'El email ya está registrado.');
+        }
+
+        if (Usuario::where('dni', $request->dni)->first()) {
+            return redirect()->back()->with('error', 'El DNI ya está registrado.');
+        }
+
+        $usuario = new Usuario();
         $usuario->usuario = $request->usuario;
-        $usuario->contraseña= Hash::make($request->contraseña);
+        $usuario->contraseña = Hash::make($request->contraseña);
         $usuario->email = $request->email;
         $usuario->dni = $request->dni;
-        $usuario->idrol =$request->idrol; 
+        $usuario->idrol = $request->idrol;
 
         $usuario->save();
 
         return redirect('/agregarusuario')->with('success', 'Usuario registrado correctamente.');
-    }  
+    }
 
-    public function MostrarApi(){
+    public function MostrarApi()
+    {
 
         $usuario = (new Usuario())->all();
 
-        return $usuario; 
-
+        return $usuario;
     }
 
-          //CRUD
+    //CRUD
 
 
-    public function consultar($id){
+    public function consultar($id)
+    {
 
         $usuario = (new Usuario())->obtenerUsuarioRol($id);
 
-        return view('consultarusuario', compact('usuario')); 
-
+        return view('consultarusuario', compact('usuario'));
     }
 
     public function editar($id)
     {
-        $usuario = Usuario::where('id',$id)->first();
-        $roles= Rol::all();
+        $usuario = Usuario::where('id', $id)->first();
+        $roles = Rol::all();
 
         return response()->json([
             'status' => 200,
@@ -74,29 +117,39 @@ class ControladorUsuario extends Controller
         ]);
     }
 
-    
-    
-     public function actualizar(Request $request, $id)
-     {
- 
-         $usuario = Usuario::findOrFail($id); 
-         $usuario->usuario = $request->usuario;
-         $usuario->contraseña = Hash::make($request->contraseña);
-         $usuario->email = $request->email;
-         $usuario->dni= $request->dni;
-         $usuario->idrol= $request->rol;
-        
-         $usuario->save();
- 
-         return response()->json([
+
+
+    public function actualizar(Request $request, $id)
+    {
+        $request->validate([
+            'usuario' => 'required|string|max:255|unique:usuario,usuario,' . $id,
+            'contraseña' => 'nullable|string|min:6',
+            'email' => 'required|email|max:255|unique:usuario,email,' . $id,
+            'dni' => 'required|string|max:20|unique:usuario,dni,' . $id,
+            'rol' => 'required|integer|exists:rol,id',
+        ]);
+
+        $usuario = Usuario::findOrFail($id);
+        $usuario->usuario = $request->usuario;
+        if ($request->filled('contraseña')) {
+            $usuario->contraseña = Hash::make($request->contraseña);
+        }
+        $usuario->email = $request->email;
+        $usuario->dni = $request->dni;
+        $usuario->idrol = $request->rol;
+
+        $usuario->save();
+
+        return response()->json([
             'status' => 200,
             'message' => 'Usuario actualizado correctamente.',
             'usuario' => $usuario,
-        ]);    
-         }
- 
+        ]);
+    }
 
-    public function eliminarData($id) {
+
+    public function eliminarData($id)
+    {
         $usuario = Usuario::where('id', $id)->first();
         $usuario->delete();
 
@@ -106,24 +159,26 @@ class ControladorUsuario extends Controller
         ]);
     }
 
-    public function mostrarData() {
+    public function mostrarData()
+    {
         $usuario = Usuario::all();
 
         return view('gestionarusuario', [
-            'usuario' => $usuario         
+            'usuario' => $usuario
         ]);
     }
-    
-    public function consultarData($id){
+
+    public function consultarData($id)
+    {
 
         $usuario = (new Usuario())->obtenerUsuarioRol($id);
 
-        return view('consultarusuario', compact('usuario')); 
-
+        return view('consultarusuario', compact('usuario'));
     }
 
-    public function recargar() {
-        $usuario = Usuario::with('role')->get(); 
+    public function recargar()
+    {
+        $usuario = Usuario::with('role')->get();
         //Recupera el rol de usuario
 
         return response()->json([

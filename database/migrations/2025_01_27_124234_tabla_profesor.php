@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email_profesor');
             $table->string('dni_profesor');
             $table->string('usuario_prof');
-            $table->string('contraseña_prof');
+            $table->string('contrasena_prof');
 
 
             $table->timestamps();

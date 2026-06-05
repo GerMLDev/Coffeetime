@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-    
+
     return new class extends Migration
     {
         /**
@@ -13,16 +13,16 @@ use Illuminate\Support\Facades\Schema;
         public function up(): void
         {
             Schema::table('alumno', function (Blueprint $table) {
-                $table->unsignedBigInteger('idprofesor'); 
-                $table->unsignedBigInteger('idnivel'); 
-                $table->unsignedBigInteger('idrol'); 
-    
+                $table->unsignedBigInteger('idprofesor');
+                $table->unsignedBigInteger('idnivel');
+                $table->unsignedBigInteger('idrol');
+
                 $table->foreign('idrol')->references('id')->on('rol')->onDelete('cascade');
                 $table->foreign('idprofesor')->references('id')->on('profesor')->onDelete('cascade');
                 $table->foreign('idnivel')->references('id')->on('nivel')->onDelete('cascade');
             });
         }
-    
+
         /**
          * Reverse the migrations.
          */
@@ -38,4 +38,3 @@ use Illuminate\Support\Facades\Schema;
             });
         }
     };
-    

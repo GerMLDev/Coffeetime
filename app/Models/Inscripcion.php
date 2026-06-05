@@ -9,6 +9,8 @@ class Inscripcion extends Model
     protected $table = 'inscripciones';
     protected $fillable = ['idalumno', 'idevento', 'fecha_inscripcion'];
 
+
+    //Recuperarr alumnos y eventos
     public function alumno()
     {
         return $this->belongsTo(Alumno::class, 'idalumno');

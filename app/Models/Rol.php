@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Rol extends Model
 {
     protected $table = "rol";
+    //Recuperar rol
 
     public function obtenerRol()
     {
@@ -15,14 +15,15 @@ class Rol extends Model
         ->get();
 
     }
+    //Rol para usuarios
 
     public function usuarios(){
 
         return $this->hasMany(Usuario::class, 'id', 'idrol');
 
     }
-     
-    
+
+
 
 }
 

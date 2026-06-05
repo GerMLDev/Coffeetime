@@ -11,21 +11,21 @@ return new class extends Migration
      */
         public function up(): void
         {
-    
+
             Schema::table('profesor', function (Blueprint $table) {
                 $table->string('email_profesor')->unique()->change();
                 $table->string('dni_profesor')->unique()->change();
                 $table->string('usuario_prof')->unique()->change();
                 });
-    
+
         }
-    
+
         /**
          * Reverse the migrations.
          */
         public function down(): void
         {
-          
+
             Schema::table('profesor', function (Blueprint $table) {
                 $table->string('email_profesor')->change();
                 $table->string('dni_profesor')->change();
@@ -33,4 +33,4 @@ return new class extends Migration
             });
 
         }
-    }; 
+    };

@@ -5,46 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alumnos por Nivel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @elseif (session('error'))
+        <script>
+            alert("{{ session('error') }}");
+        </script>
+    @endif
 </head>
 <body class="bg-dark">
-    <div class="container mt-5 bg-light p-4 rounded shadow" width="70%">
-        <h2 class="text-center" style="color: white; background-color: rgb(51, 0, 92); padding: 10px;">Alumnos por Nivel</h2>
-        <hr>
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-outline-danger w-300" formaction="{{ route('logout') }}">Cerrar
-                Sesión</button>
-        </form>
-        <form action="">
-            <button type="submit" class="btn btn-outline-secondary w-300" style="float: right"
-                formaction="{{ route('gestor') }}">Volver</button>
-        </form> 
+    <div class="container mt-5 bg-light p-4 rounded shadow contenedor-formulario">
+        <h2 class="text-center titulo-pagina-azul">Alumnos por Nivel</h2>
+       <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <a href="{{ route('gestor') }}" class="btn btn-outline-secondary">
+                Volver al gestor
+            </a>
+
+            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger">
+                    Cerrar Sesión
+                </button>
+            </form>
+
+        </div>
         <hr>
         <div class="container mt-5 d-flex justify-content-center">
-            <canvas id="dashboard" class="d-flex justify-content-center w-50 h-50"></canvas>
-
-                <script>
-                    var datos = {!! json_encode($datos) !!};
-
-                    new Chart(document.getElementById('dashboard'), {
-                        type: 'doughnut',
-                        data: {
-                            labels: datos.map(row => `Nivel ${row.nivel}`),
-                            datasets: [{
-                                label: 'Cantidad de Alumnos',
-                                data: datos.map(row => row.cantidad),
-                                backgroundColor: ['red', 'blue', 'green', 'yellow']
-                            }]
-                        }
-                    });
-                </script>
-
+            <canvas id="dashboard" class="d-flex justify-content-center w-50 h-50" data-panel='@json($datos)'></canvas>
+            <script src="{{ asset('js/dashboard.js') }}"></script>
         </div>
     </div>
 
 
 
-   
+
 </body>
 </html>

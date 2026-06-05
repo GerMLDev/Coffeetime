@@ -15,92 +15,143 @@ use Illuminate\Support\Facades\Session;
 class ControladorIndex extends Controller
 {
 
-function Home(){
-    return view('Portada');
-}
-function Eventos(){
-    return view('Eventos');
-}
-function Recursos(){
-    return view('Recursos');
-}
-function Informate(){
-    return view('Informate');
-}
+    function Home()
+    {
+        return view('Portada');
+    }
+    function Eventos()
+    {
+        return view('Eventos');
+    }
+    function Recursos()
+    {
+        return view('Recursos');
+    }
+    function Informate()
+    {
+        return view('Informate');
+    }
+    function VistaGestor()
+    {
+        return view('Gestor');
+    }
 
-function VistaGestor(){
-    return view('Gestor');
-}
+    function AnadirProfesor()
+    {
+        $niveles = Nivel::all();
 
-function AñadirProfesor(){
-    return view('AñadirProfesor');
-}
-function AñadirAlumno(){
+        return view('AnadirProfesor', [
+            'niveles' => $niveles,
+        ]);
+    }
+    function AnadirAlumno()
+    {
 
         $niveles = Nivel::all();
         $profesores = Profesor::all();
-        return view('AñadirAlumno', [
+        return view('AnadirAlumno', [
             'niveles' => $niveles,
             'profesores' => $profesores
-        ]); 
-    
+        ]);
     }
-function AñadirUsuario(){
+    function WebAnadirAlumno()
+    {
+
+        $niveles = Nivel::all();
+        $profesores = Profesor::all();
+        return view('WebAnadirAlumno', [
+            'niveles' => $niveles,
+            'profesores' => $profesores
+        ]);
+    }
+    function AnadirUsuario()
+    {
         $roles = Rol::all();
-        return view('AñadirUsuario', [
-            'roles' => $roles]); 
-}
-function LoginAñadirUsuario(){
-    $roles = Rol::all();
-    return view('LoginAñadirUsuario', [
-        'roles' => $roles]); 
+        return view('AnadirUsuario', [
+            'roles' => $roles
+        ]);
+    }
+    function LoginAnadirUsuario()
+    {
+        $roles = Rol::all();
+        return view('LoginAnadirUsuario', [
+            'roles' => $roles
+        ]);
+    }
+
+    function GestionarProfesor()
+    {
+        $niveles = Nivel::all();
+        $profesores = Profesor::all();
+        return view('GestionarProfesor', [
+            'profesores' => $profesores,
+            'niveles' => $niveles
+        ]);
+    }
+    function GestionarAlumno()
+    {
+        $alumnos = Alumno::all();
+        return view('GestionarAlumno', ['alumnos' => $alumnos]);
+    }
+    function GestionarUsuario()
+    {
+        $usuario = (new Usuario())->obtenerUsuario();
+        return view('GestionarUsuario', ['usuario' => $usuario]);
+    }
+
+    function VistaLogin()
+    {
+        return view('Login');
+    }
+
+    //PERFILES PARA PROFESOR Y ALUMNO
+   public function VistaPerfil()
+{
+    $user = Auth::user();
+    $perfil = null;
+
+    if ($user->idrol == 3) {
+        $perfil = Alumno::with(['profe', 'nivel'])
+            ->where('usuario', $user->usuario)
+            ->first();
+    } elseif ($user->idrol == 2) {
+        $perfil = Profesor::with('nivel')
+            ->where('usuario_prof', $user->usuario)
+            ->first();
+    }
+
+    if (!$perfil) {
+        return redirect('/')->with('error', 'No se encontró el perfil asociado a este usuario.');
+    }
+
+    return view('perfil', compact('perfil'));
 }
 
-function GestionarProfesor(){
-    $profesores = Profesor::all();
-    return view('GestionarProfesor', ['profesores'=>$profesores]);
-}
-function GestionarAlumno(){
-    $alumnos = Alumno::all();
-    return view('GestionarAlumno' , ['alumnos'=>$alumnos]);
-}
-function GestionarUsuario(){
-    $usuario = (new Usuario())->obtenerUsuario();
-    return view('GestionarUsuario', ['usuario'=>$usuario]);
-}
+    //LOGIN
 
-function VistaLogin(){
-    return view('login');
+    function Autenticarse(Request $request)
+    {
 
-}
-
-//LOGIN
-
-function Autenticarse(Request $request){
-
-        $credenciales=$request->validate([
+        $credenciales = $request->validate([
             'usuario' => 'required',
             'password' => 'required',
         ]);
 
-    if(Auth::attempt($credenciales)){
-        $request->session()->regenerate();
+        if (Auth::attempt($credenciales)) {
+            $request->session()->regenerate();
 
-        return redirect('/')->with('success', 'Bienvenido al SISTEMA de GESTIÓN.');
-    }else{
-        return redirect('/login')->with('error', 'Las credenciales no son correctas.');
+            return redirect('/')->with('success', '¡Bienvenido a CoffeeTime!');
+        } else {
+            return redirect('/login')->with('error', 'Las credenciales no son correctas.');
+        }
+    }
+
+    //LOGOUT
+    public function CerrarSesion()
+    {
+        Session::flush();
+        Auth::logout();
+
+        return redirect('/');
     }
 }
-
-//LOGOUT
-public function CerrarSesion() {
-    Session::flush();
-    Auth::logout();
-
-    return redirect('/login');
-}
-
-}   
-
-
-

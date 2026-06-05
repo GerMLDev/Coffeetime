@@ -16,9 +16,9 @@ class Usuario extends Authenticatable {
 
     public function getAuthPassword()
     {
-        return $this->contraseña; 
-    }   
-    
+        return $this->contraseña;
+    }
+
 
     public function obtenerUsuarioRol($id)
     {
@@ -35,20 +35,21 @@ class Usuario extends Authenticatable {
 
          return self::select(
         'usuario.*',
-        DB::raw("rol.rol AS ROL") 
+        DB::raw("rol.rol AS ROL")
     )
     ->join('rol', 'usuario.idrol', '=', 'rol.id')
-    ->get(); 
+    ->get();
     }
+//Recupera el rol para usuario
 
-    public function role(){
-        return $this->belongsTo(Rol::class, 'idrol');
+public function role() {
+    return $this->belongsTo(Rol::class, 'idrol');
+}
 
-    }
+//Comprueba si el usuario tiene un rol ('admin', 'alumno', 'profesor').
 
-    public function hasRole($rol){
-
+public function hasRole($rol) {
     return $this->role && $this->role->rol === $rol;
-    }
-   
+}
+
 }

@@ -11,6 +11,14 @@ class AlumnoSeeder extends Seeder
 {
     public function run()
     {
+
+    /*Ejemplo para iniciar sesion como alumno:
+    {
+    Usuario: carlosga1
+     Contraseña: password1
+    }
+     y así sucesivamente.
+    */
         $alumnos = [
             ['nombre' => 'Carlos', 'apellidos' => 'Garcia Fernandez'],
             ['nombre' => 'Manuel', 'apellidos' => 'Lopez Martinez'],
@@ -35,15 +43,29 @@ class AlumnoSeeder extends Seeder
         ];
 
         foreach ($alumnos as $i => $alumno) {
-            $email = strtolower($alumno['nombre'] . '.' . explode(' ', $alumno['apellidos'])[0] . '@gmail.com');
-            $dni = random_int(10000000, 99999999) . chr(rand(65, 90));
-            $usuario = strtolower($alumno['nombre'] . substr(explode(' ', $alumno['apellidos'])[0], 0, 2));
-            $contraseña = Hash::make('password' . $i);
-            $idnivel = ($i % 4) + 1;
-            $idprofesor = ($i % 4) + 1;
+            //Email
+            $email = $alumno['email'] ?? strtolower($alumno['nombre'] . '.' . explode(' ', $alumno['apellidos'])[0] . '@gmail.com');
+            //DNi
+            $dni = $alumno['dni'] ?? random_int(10000000, 99999999) . chr(rand(65, 90));
+            //Usuario y contraseña
+            $usuario = $alumno['usuario'] ?? strtolower($alumno['nombre'] . substr(explode(' ', $alumno['apellidos'])[0], 0, 2) . ($i + 1));
+            $plainPassword = $alumno['password'] ?? 'password' . ($i + 1);
+            $hashedPassword = Hash::make($plainPassword);
+            //Nivel FK , Profesor FK y ROL FK
+            $idnivel = $alumno['idnivel'] ?? (($i % 4) + 1);
+            $idprofesor = $alumno['idprofesor'] ?? (($i % 4) + 1);
             $idrol = 3;
-
             $timestamp = Carbon::now();
+
+            DB::table('usuario')->insert([
+                'usuario' => $usuario,
+                'contraseña' => $hashedPassword,
+                'email' => $email,
+                'dni' => $dni,
+                'idrol' => $idrol,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp,
+            ]);
 
             DB::table('alumno')->insert([
                 'nombre' => $alumno['nombre'],
@@ -51,10 +73,9 @@ class AlumnoSeeder extends Seeder
                 'email' => $email,
                 'dni' => $dni,
                 'usuario' => $usuario,
-                'contraseña' => $contraseña,
+                'contraseña' => $hashedPassword,
                 'idnivel' => $idnivel,
                 'idrol' => $idrol,
-
                 'idprofesor' => $idprofesor,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,

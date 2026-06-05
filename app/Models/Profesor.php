@@ -4,11 +4,18 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use App\Models\Nivel;
 
 class Profesor extends Model
 {
     protected $table = "profesor";
+    //Recuperar niveles
+
+    public function nivel()
+    {
+        return $this->belongsTo(Nivel::class, 'idnivel');
+    }
+    //Recuperar profesor
 
     public function obtenerProfesor($id)
     {
@@ -18,6 +25,6 @@ class Profesor extends Model
 
     }
 
- 
+
 
 }

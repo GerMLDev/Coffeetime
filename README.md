@@ -1,66 +1,48 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CoffeeTime
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+CoffeeTime es una aplicación web de gestión educativa construida con Laravel y desplegada con Docker. El proyecto incluye registro y gestión de usuarios, profesores, alumnos, eventos y recursos, junto con roles de administrador, profesor y alumno.
 
-## About Laravel
+## Tecnologías principales
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.2 y Laravel 11
+- Docker / docker-compose
+- Apache + MySQL (contenedor `db`)
+- JavaScript con jQuery y DataTables para tablas dinámicas
+- Blade para plantillas del frontend
+- CSS personalizado y Bootstrap para el diseño
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Arquitectura y funcionalidades
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Estructura MVC típica de Laravel: `app/Http/Controllers`, `app/Models`, `resources/views`
+- Rutas definidas en `routes/web.php` para páginas públicas y áreas protegidas
+- Panel de administración con CRUD para usuarios, profesores y alumnos
+- Gestión de eventos y recursos con inscripciones, subida y borrado
+- Autenticación básica y control de acceso por roles
+- AJAX/JSON para recarga de datos y operaciones en tablas sin recargar la página
 
-## Learning Laravel
+## Entorno de desarrollo
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+El proyecto se ejecuta con Docker usando `docker-compose.yml`:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Servicio `app`: contenedor PHP 8.2 + Apache
+- Servicio `db`: MySQL 8.0 con base de datos `coffeetime`
+- Servicio `phpmyadmin`: acceso UI para la base de datos en el puerto `8081`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Cómo ejecutar
 
-## Laravel Sponsors
+1. Copiar `.env.example` a `.env` y ajustar si es necesario
+2. Ejecutar `docker-compose up --build`
+3. Acceder a la aplicación en `http://localhost`
+4. phpMyAdmin disponible en `http://localhost:8081`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Qué debe evaluar el tribunal
 
-### Premium Partners
+- Uso de Docker para contenerizar la app y la base de datos
+- Uso de Laravel para la lógica del servidor y el modelo de datos
+- Integración de frontend dinámico con DataTables, AJAX y validaciones básicas
+- Administración de distintos tipos de usuarios y roles
+- Separación de responsabilidades entre rutas, controladores y vistas
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Nota
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+El proyecto está pensado como una plataforma sencilla de administración educativa, con énfasis en la gestión de registros, eventos y recursos dentro de un entorno web moderno e informal.
