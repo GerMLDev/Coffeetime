@@ -10,6 +10,7 @@ Tecnologías
 - JavaScript con jQuery y DataTables para tablas dinámicas
 - Blade para las vistas
 - CSS y Bootstrap para el diseño
+- Chart para dashboards
 
 Arquitectura y funcionalidades
 
