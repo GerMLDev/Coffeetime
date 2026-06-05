@@ -2,7 +2,7 @@
 
 CoffeeTime es una aplicación web de gestión educativa online construida con Laravel y desplegada con Docker. El proyecto incluye registro y gestión de usuarios, profesores, alumnos, eventos y recursos, junto con roles de administrador, profesor y alumno.
 
-Tecnologías
+# Tecnologías
 
 - PHP 8.2 y Laravel 11
 - Docker / docker-compose
@@ -12,7 +12,7 @@ Tecnologías
 - CSS y Bootstrap para el diseño
 - Chart para dashboards
 
-Arquitectura y funcionalidades
+# Arquitectura y funcionalidades
 
 - Estructura MVC de Laravel: `app/Http/Controllers`, `app/Models`, `resources/views`
 - Rutas definidas en `routes/web.php` para páginas públicas y protegidas
@@ -21,7 +21,7 @@ Arquitectura y funcionalidades
 - Autenticación básica y control de acceso por roles
 - AJAX/JSON para recarga de datos dinámica
 
-Entorno de desarrollo
+# Entorno de desarrollo
 
 El proyecto se ejecuta con Docker usando `docker-compose.yml`:
 
@@ -29,7 +29,7 @@ El proyecto se ejecuta con Docker usando `docker-compose.yml`:
 - Servicio `db`: MySQL 8.0 con base de datos `coffeetime`
 - Servicio `phpmyadmin`: acceso en el puerto `8081`
 
-Cómo desplegarlo
+# Cómo desplegarlo
 
 1. Copiar `.env.example` a `.env` y ajustar en caso de puertos ocupados
 2. Ejecutar `docker-compose up --build`
