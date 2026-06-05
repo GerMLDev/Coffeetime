@@ -1,4 +1,4 @@
-CoffeeTime
+# CoffeeTime
 
 CoffeeTime es una aplicación web de gestión educativa online construida con Laravel y desplegada con Docker. El proyecto incluye registro y gestión de usuarios, profesores, alumnos, eventos y recursos, junto con roles de administrador, profesor y alumno.
 
