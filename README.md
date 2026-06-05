@@ -1,48 +1,37 @@
-# CoffeeTime
+CoffeeTime
 
-CoffeeTime es una aplicación web de gestión educativa construida con Laravel y desplegada con Docker. El proyecto incluye registro y gestión de usuarios, profesores, alumnos, eventos y recursos, junto con roles de administrador, profesor y alumno.
+CoffeeTime es una aplicación web de gestión educativa online construida con Laravel y desplegada con Docker. El proyecto incluye registro y gestión de usuarios, profesores, alumnos, eventos y recursos, junto con roles de administrador, profesor y alumno.
 
-## Tecnologías principales
+Tecnologías
 
 - PHP 8.2 y Laravel 11
 - Docker / docker-compose
 - Apache + MySQL (contenedor `db`)
 - JavaScript con jQuery y DataTables para tablas dinámicas
-- Blade para plantillas del frontend
-- CSS personalizado y Bootstrap para el diseño
+- Blade para las vistas
+- CSS y Bootstrap para el diseño
 
-## Arquitectura y funcionalidades
+Arquitectura y funcionalidades
 
-- Estructura MVC típica de Laravel: `app/Http/Controllers`, `app/Models`, `resources/views`
-- Rutas definidas en `routes/web.php` para páginas públicas y áreas protegidas
-- Panel de administración con CRUD para usuarios, profesores y alumnos
+- Estructura MVC de Laravel: `app/Http/Controllers`, `app/Models`, `resources/views`
+- Rutas definidas en `routes/web.php` para páginas públicas y protegidas
+- Panel de administración `resources/views/Gestor.blade.php` con CRUD para usuarios, profesores y alumnos
 - Gestión de eventos y recursos con inscripciones, subida y borrado
 - Autenticación básica y control de acceso por roles
-- AJAX/JSON para recarga de datos y operaciones en tablas sin recargar la página
+- AJAX/JSON para recarga de datos dinámica
 
-## Entorno de desarrollo
+Entorno de desarrollo
 
 El proyecto se ejecuta con Docker usando `docker-compose.yml`:
 
-- Servicio `app`: contenedor PHP 8.2 + Apache
+- Servicio `app`: PHP 8.2 + Apache
 - Servicio `db`: MySQL 8.0 con base de datos `coffeetime`
-- Servicio `phpmyadmin`: acceso UI para la base de datos en el puerto `8081`
+- Servicio `phpmyadmin`: acceso en el puerto `8081`
 
-## Cómo ejecutar
+Cómo desplegarlo
 
-1. Copiar `.env.example` a `.env` y ajustar si es necesario
+1. Copiar `.env.example` a `.env` y ajustar en caso de puertos ocupados
 2. Ejecutar `docker-compose up --build`
 3. Acceder a la aplicación en `http://localhost`
-4. phpMyAdmin disponible en `http://localhost:8081`
-
-## Qué debe evaluar el tribunal
-
-- Uso de Docker para contenerizar la app y la base de datos
-- Uso de Laravel para la lógica del servidor y el modelo de datos
-- Integración de frontend dinámico con DataTables, AJAX y validaciones básicas
-- Administración de distintos tipos de usuarios y roles
-- Separación de responsabilidades entre rutas, controladores y vistas
-
-## Nota
-
-El proyecto está pensado como una plataforma sencilla de administración educativa, con énfasis en la gestión de registros, eventos y recursos dentro de un entorno web moderno e informal.
+4. PhpMyAdmin disponible en `http://localhost:8081`
+5. Ejecutar migraciones y seeders: `docker-compose exec app php artisan migrate` y `docker-compose exec app php artisan db:seed`.
