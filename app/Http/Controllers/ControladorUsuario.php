@@ -67,17 +67,14 @@ class ControladorUsuario extends Controller
 
         //Control de errores de duplicidad
 
-
-
         if (Usuario::where('usuario', $request->usuario)->first()) {
             return redirect()->back()->with('error', 'El nombre de usuario ya está en uso.');
         }
 
+
         if (Usuario::where('email', $request->email)->first()) {
             return redirect()->back()->with('error', 'El email ya está registrado.');
         }
-
-
         if (Usuario::where('dni', $request->dni)->first()) {
             return redirect()->back()->with('error', 'El DNI ya está registrado.');
         }

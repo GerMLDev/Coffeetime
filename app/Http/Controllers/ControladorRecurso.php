@@ -31,7 +31,7 @@ class ControladorRecurso extends Controller
                 $query->where('idnivel', $alumno->idnivel);
             }
         }
-
+    //Mapea los datos de los recursos y los envía a la tabla
         $recursos = $query->get()->map(function ($recurso) {
             return [
                 'id'              => $recurso->id,
