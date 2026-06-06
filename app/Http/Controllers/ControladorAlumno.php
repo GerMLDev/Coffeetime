@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ControladorAlumno extends Controller
 {
+    // Carga todos los alumnos para el panel de gestión
     function obtenerAlumnos()
     {
         $alumnos = Alumno::all();
@@ -22,6 +23,7 @@ class ControladorAlumno extends Controller
 
         ]);
     }
+    // Registra un alumno desde el formulario web público
     public function RegistroAlumnoWeb(Request $request)
     {
         $request->validate([
@@ -53,7 +55,7 @@ class ControladorAlumno extends Controller
         if ($profesores->isEmpty()) {
             return redirect()->back()->with('error', 'No hay profesores disponibles para el nivel seleccionado.');
         }
-        //Crea usuario
+        // Crea el usuario del alumno
         $usuario = new Usuario();
         $usuario->usuario = $request->usuario;
         $usuario->contraseña = Hash::make($request->contraseña);
@@ -79,6 +81,7 @@ class ControladorAlumno extends Controller
 
         return redirect('/')->with('success', 'Alumno registrado correctamente.');
     }
+    // Registra un alumno desde el panel de administración
     public function RegistroAlumno(Request $request)
     {
         $request->validate([
@@ -106,7 +109,7 @@ class ControladorAlumno extends Controller
             return redirect()->back()->with('error', 'El DNI ya está registrado.');
         }
 
-        //Crea usuario
+        // Crea el usuario del alumno
 
         $usuario = new Usuario();
         $usuario->usuario = $request->usuario;
@@ -118,6 +121,7 @@ class ControladorAlumno extends Controller
 
 
         //Crea ficha de alumno
+
         $alumno = new Alumno();
         $alumno->nombre = $request->nombre;
         $alumno->apellidos = $request->apellidos;
@@ -136,11 +140,14 @@ class ControladorAlumno extends Controller
 
     //CRUD
 
+    // Muestra los datos de un alumno en la vista de consulta
     public function consultar($id)
     {
         $alumno = (new Alumno())->obtenerAlumno($id);
         return view('consultaralumno', compact('alumno'));
     }
+
+    // Carga datos del alumno para editarlos por AJAX
 
     public function editar($id)
     {
@@ -155,6 +162,8 @@ class ControladorAlumno extends Controller
             'profesores' => $profesores
         ]);
     }
+
+    // Actualiza los datos de un alumno
 
     public function actualizar(Request $request, $id)
     {
@@ -191,8 +200,8 @@ class ControladorAlumno extends Controller
         ]);
     }
 
-    public function mostrarData()
-    {
+    // Muestra todos los alumnos en la gestión
+    public function mostrarData(){
         $alumno = Alumno::all();
 
         return view('gestionaralumno', [
@@ -200,8 +209,9 @@ class ControladorAlumno extends Controller
         ]);
     }
 
-    public function eliminarData($id)
-    {
+    // Elimina un alumno por id
+    public function eliminarData($id){
+
         $alumno = Alumno::where('id', $id)->first();
 
         $alumno->delete();
@@ -211,6 +221,7 @@ class ControladorAlumno extends Controller
             'message' => 'Alumno borrado correctamente'
         ]);
     }
+    // Recarga alumnos con su profe y nivel para la tabla
     public function recargar()
     {
         //Recupera el profesor de alumno y el nivel
@@ -222,6 +233,7 @@ class ControladorAlumno extends Controller
     }
 
 
+    // Muestra dashboard de alumnos por nivel
     public function dashboardNivel()
     {
         $datos = (new Alumno())->getAlumnosPorNivel();
@@ -231,10 +243,12 @@ class ControladorAlumno extends Controller
         ]);
     }
 
-    public function dashboardProfesor()
-    {
+    // Muestra dashboard de alumnos por profesor
+    public function dashboardProfesor(){
+        
         $datos = (new Alumno())->getAlumnosPorProfesor();
 
+        // Solo carga los alumnos del profe logueado
         $misAlumnos = Alumno::where('idprofesor', Auth::user()->id)->get();
 
         return view('dashboardProfe', [
@@ -244,6 +258,7 @@ class ControladorAlumno extends Controller
     }
 
 
+    // Actualiza el perfil del usuario logueado (alumno o profe)
     public function actualizarPerfil(Request $request)
     {
         $user = Auth::user();
@@ -270,6 +285,7 @@ class ControladorAlumno extends Controller
         $request->validate($validaciones);
 
         if ($user->idrol == 3) {
+            // Actualiza datos del perfil de alumno
             $perfil = Alumno::where('usuario', $user->usuario)->first();
             if ($perfil) {
                 $perfil->nombre = $request->nombre;
@@ -280,6 +296,7 @@ class ControladorAlumno extends Controller
                 }
             }
         } elseif ($user->idrol == 2) {
+            // Actualiza datos del perfil de profesor
             $perfil = Profesor::where('usuario_prof', $user->usuario)->first();
             if ($perfil) {
                 $perfil->nombre_profesor = $request->nombre_profesor;
@@ -310,6 +327,7 @@ class ControladorAlumno extends Controller
         ]);
     }
 
+    // Sincroniza la cuenta de usuario con los cambios del perfil
     private function sincronizarUsuarioPerfil(Usuario $usuario, Request $request)
     {
         $usuario->email = $request->email;

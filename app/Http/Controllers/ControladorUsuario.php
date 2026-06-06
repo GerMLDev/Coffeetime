@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class ControladorUsuario extends Controller
 {
 
+    // Registra un usuario desde el login público
     public function RegistroUsuarioLogin(Request $request)
     {
 
@@ -53,6 +54,7 @@ class ControladorUsuario extends Controller
     }
 
 
+    // Registra un usuario desde el panel de administración
     public function RegistroUsuario(Request $request)
     {
         $request->validate([
@@ -62,6 +64,11 @@ class ControladorUsuario extends Controller
             'dni' => 'required|string|max:20|unique:usuario,dni',
             'idrol' => 'required|integer|exists:rol,id',
         ]);
+
+        //Control de errores de duplicidad
+
+
+
         if (Usuario::where('usuario', $request->usuario)->first()) {
             return redirect()->back()->with('error', 'El nombre de usuario ya está en uso.');
         }
@@ -69,6 +76,7 @@ class ControladorUsuario extends Controller
         if (Usuario::where('email', $request->email)->first()) {
             return redirect()->back()->with('error', 'El email ya está registrado.');
         }
+
 
         if (Usuario::where('dni', $request->dni)->first()) {
             return redirect()->back()->with('error', 'El DNI ya está registrado.');
@@ -86,27 +94,23 @@ class ControladorUsuario extends Controller
         return redirect('/agregarusuario')->with('success', 'Usuario registrado correctamente.');
     }
 
-    public function MostrarApi()
-    {
-
+    // Devuelve todos los usuarios en formato JSON para la API
+    public function MostrarApi(){
         $usuario = (new Usuario())->all();
-
         return $usuario;
     }
 
     //CRUD
 
-
-    public function consultar($id)
-    {
+    // Muestra un usuario con su rol en la vista de consulta
+    public function consultar($id){
 
         $usuario = (new Usuario())->obtenerUsuarioRol($id);
-
         return view('consultarusuario', compact('usuario'));
     }
 
-    public function editar($id)
-    {
+    // Carga los datos del usuario para editar desde AJAX
+    public function editar($id){
         $usuario = Usuario::where('id', $id)->first();
         $roles = Rol::all();
 
@@ -119,11 +123,12 @@ class ControladorUsuario extends Controller
 
 
 
+    // Actualiza los datos de un usuario existente
     public function actualizar(Request $request, $id)
     {
         $request->validate([
             'usuario' => 'required|string|max:255|unique:usuario,usuario,' . $id,
-            'contraseña' => 'nullable|string|min:6',
+            'contraseña' => 'nullable|string|min:8',
             'email' => 'required|email|max:255|unique:usuario,email,' . $id,
             'dni' => 'required|string|max:20|unique:usuario,dni,' . $id,
             'rol' => 'required|integer|exists:rol,id',
@@ -148,6 +153,7 @@ class ControladorUsuario extends Controller
     }
 
 
+    // Borra un usuario y devuelve resultado JSON
     public function eliminarData($id)
     {
         $usuario = Usuario::where('id', $id)->first();
@@ -159,6 +165,7 @@ class ControladorUsuario extends Controller
         ]);
     }
 
+    // Muestra todos los usuarios en la página de gestión
     public function mostrarData()
     {
         $usuario = Usuario::all();
@@ -168,6 +175,7 @@ class ControladorUsuario extends Controller
         ]);
     }
 
+    //Consulta de usuario con rol para la vista pública de consulta
     public function consultarData($id)
     {
 
@@ -176,6 +184,7 @@ class ControladorUsuario extends Controller
         return view('consultarusuario', compact('usuario'));
     }
 
+    // Recarga usuarios con relación al rol para la tabla
     public function recargar()
     {
         $usuario = Usuario::with('role')->get();

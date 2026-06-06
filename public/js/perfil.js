@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Controla el formulario de edición de perfil y valida la contraseña
     var form = document.getElementById("perfil-edit-form");
     if (!form) return;
 
@@ -7,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var password = form.querySelector('[name="contraseña"]').value;
         if (password) {
+            // Validación rápida del largo de la contraseña antes de enviar
             if (password.length < 8) {
                 alert("La contraseña debe tener al menos 8 caracteres.");
                 return;

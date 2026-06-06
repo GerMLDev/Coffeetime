@@ -8,18 +8,20 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+// Modelo de usuario con auth y rol
 class Usuario extends Authenticatable {
     use HasFactory, Notifiable;
 
     protected $table = "usuario";
 
-
+    // Devuelve la contraseña para auth
     public function getAuthPassword()
     {
         return $this->contraseña;
     }
 
 
+    // Devuelve el usuario junto con su rol por ID
     public function obtenerUsuarioRol($id)
     {
         return self::select(
@@ -31,6 +33,7 @@ class Usuario extends Authenticatable {
         ->first();
 
     }
+    // Saca TODOS los usuarios con su rol
     public function obtenerUsuario(){
 
          return self::select(

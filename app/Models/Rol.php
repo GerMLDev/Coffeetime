@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+// Modelo de rol para unir usuarios con permisos
 class Rol extends Model
 {
     protected $table = "rol";

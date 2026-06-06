@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var correcto = document.getElementById("correcto");
     var errormsg = document.getElementById("errormsg");
 
-    // Navegación con ENTER
+    // Navegación con ENTER entre campos de login
     var campos = [usuario, password];
     campos.forEach(function (campo, index) {
         campo.addEventListener("keydown", function (e) {
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Validación vacío o numérico
+    // Validación de los campos antes de enviar el formulario de login
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -73,10 +73,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Pinta el campo de rojo cuando está vacío o inválido
     function marcarError(campo) {
         campo.focus();
         campo.style.border = "2px solid red";
     }
+    // Restaura el estilo normal del campo cuando es válido
     function marcarOk(campo) {
         campo.style.border = "1px solid black";
     }

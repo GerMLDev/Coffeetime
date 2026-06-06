@@ -1,3 +1,4 @@
+// Configura axios para peticiones AJAX en el frontend
 import axios from 'axios';
 window.axios = axios;
 

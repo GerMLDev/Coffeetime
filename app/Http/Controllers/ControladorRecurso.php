@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ControladorRecurso extends Controller
 {
+    // Muestra la página de recursos con profes y niveles
     public function mostrarData()
     {
         $profesores = Profesor::all();
         $niveles    = Nivel::all();
         return view('recursos', compact('profesores', 'niveles'));
     }
+    // Recarga recursos y filtra por nivel si es alumno
     public function recargar()
     {
         $user = Auth::user();
@@ -25,6 +27,7 @@ class ControladorRecurso extends Controller
         if ($user && $user->idrol == 3) { // alumno
             $alumno = Alumno::where('usuario', $user->usuario)->first();
             if ($alumno) {
+                // Solo ver recursos del mismo nivel que el alumno
                 $query->where('idnivel', $alumno->idnivel);
             }
         }
@@ -38,7 +41,7 @@ class ControladorRecurso extends Controller
                 'nivel'           => $recurso->nivel->nivel ?? '-',
                 'nombre_profesor' => $recurso->profesor->nombre_profesor ?? '-',
             ];
-        })->values(); 
+        })->values();
 
         return response()->json([
             'status'   => 200,
@@ -46,6 +49,7 @@ class ControladorRecurso extends Controller
         ]);
     }
 
+    // Registra un nuevo recurso y asigna el profe correcto
     public function registrar(Request $request)
     {
         $user = Auth::user();
@@ -70,8 +74,10 @@ class ControladorRecurso extends Controller
         $recurso->idnivel  = $request->idnivel;
 
         if ($user->idrol == 1) {
+            // Si es admin, usa el profe elegido por el formulario
             $recurso->idprofesor = $request->idprofesor;
         } else {
+            // Si no es admin, asigna al profe vinculado al usuario actual
             $profesor = Profesor::where('idusuario', $user->id)->first();
             $recurso->idprofesor = $profesor->id;
         }
@@ -84,6 +90,7 @@ class ControladorRecurso extends Controller
         ]);
     }
 
+    // Elimina un recurso por su id
     public function eliminarData($id)
     {
         $recurso = Recurso::where('id', $id)->first();

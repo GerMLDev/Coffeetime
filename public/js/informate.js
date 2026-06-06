@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var errormsg = document.getElementById("errormsg");
 
     if (form && nombre && apellidos && email && mensaje && errormsg) {
-        //No hacemos foco al cargar la página porque genera error por el blur si queremos pinchar en cualquier otro enlace.
+        // No hacemos foco al cargar la página para evitar problemas con blur
 
         var ahora = new Date();
     document.getElementById("fecha_envio").value =
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("hora_envio").value =
         ahora.toLocaleTimeString("es-ES");
 
-    // Navegación con ENTER
+    // Navegación con ENTER entre los campos del formulario de contacto
     var campos = [nombre, apellidos, email, mensaje];
     campos.forEach(function (campo, index) {
         campo.addEventListener("keydown", function (e) {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Validación vacío o numérico
+    // Comprueba todo el formulario antes de enviar la consulta
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
             marcarOk(mensaje);
         }
 
-        //MAIL DE CONFIRMACIÓN DE ENVíO (PHP Mailer)
+        // Si todo es válido, dispara el envío con fetch a la ruta de contacto
         if (valido) {
             var formData = new FormData(form);
             //Fetch a la URL
@@ -158,11 +158,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     }
 
+    // Marca el campo en rojo cuando hay error de validación
     function marcarError(campo) {
         campo.focus();
         campo.style.border = "2px solid red";
     }
 
+    // Marca el campo como correcto y limpia el mensaje de error
     function marcarOk(campo) {
         campo.style.border = "1px solid green";
         errormsg.innerHTML = "";

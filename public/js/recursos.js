@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Inicializa la tabla de recursos solo si existe el elemento
     var tablavista = document.getElementById("tablaRecursos");
     if (!tablavista) return;
 
@@ -8,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var eliminar = tablavista.dataset.eliminar;
     var esAdmin = tablavista.dataset.esAdmin === "1";
 
+    // Configura DataTable para listar los recursos y traer los datos por AJAX
     var tabla = new DataTable("#tablaRecursos", {
         language: {
             url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ]
     });
 
-    // Subir recurso
+    // Subir recurso: envía el formulario con fetch y recarga la tabla al guardar
     var form = document.getElementById("recurso-crear-form");
     if (form) {
         form.addEventListener("submit", function (e) {
@@ -63,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Eliminar recurso
+    // Eliminar recurso desde la tabla cuando el admin pulsa el botón borrar
     tablavista.addEventListener("click", function (e) {
         var target = e.target;
         var id = target.dataset.id;

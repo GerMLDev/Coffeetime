@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class ControladorContacto extends Controller
 {
-    // Método central SMTP — lo usan los demás métodos
+    // SMTP base, se reutiliza tanto par el formulario de contacto como para confirmar/cancelar insceipciones de alumnos
     public function enviarEmail(string $destinatario, string $asunto, string $cuerpo): bool
     {
         $mail = new PHPMailer(true);
@@ -45,7 +45,7 @@ class ControladorContacto extends Controller
             'hora_envio' => 'required|string|max:50',
             'mensaje' => 'required|string',
         ]);
-
+    //Crea el cuerpo del mensaje de consulta
         $cuerpo = '
             <h2>Nueva consulta recibida</h2>
             <p><strong>Nombre:</strong> ' . $request->nombre . ' ' . $request->apellidos . '</p>
@@ -81,8 +81,8 @@ class ControladorContacto extends Controller
     return $this->enviarEmail($email, '¡Inscripcion confirmada! ' . $titulo, $cuerpo);
 }
 
-// CANCELACIÓN de EVENTO
-public function confirmarCancelacion(
+    // Confirmación de cancelación de inscripción
+    public function confirmarCancelacion(
     string $nombre, string $apellidos, string $email, string $titulo, string $fecha, string $hora): bool {
 
     $cuerpo = '

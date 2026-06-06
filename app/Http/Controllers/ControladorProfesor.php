@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class ControladorProfesor extends Controller
 {
+    // Registra un nuevo profesor junto a su usuario
     public function RegistroProfesor(Request $request)
     {
         $request->validate([
@@ -37,8 +38,8 @@ class ControladorProfesor extends Controller
             return redirect()->back()->with('error', 'El DNI ya está registrado.');
         }
 
-        // Usamos una transacción para asegurarnos de que se guarden ambos o ninguno
         DB::transaction(function () use ($request) {
+            // Crea usuario y profesor en la misma transacción
             $usuario = new Usuario();
             $usuario->usuario = $request->usuario_prof;
             $usuario->contraseña = Hash::make($request->contrasena_prof);
@@ -65,6 +66,7 @@ class ControladorProfesor extends Controller
 
     // CRUD
 
+    // Muestra los datos del profe y sus alumnos asociados
     public function consultar($id)
     {
         $profesor = (new Profesor())->obtenerProfesor($id);
@@ -73,6 +75,7 @@ class ControladorProfesor extends Controller
         return view('consultarprofesor', compact('profesor', 'alumnonivel'));
     }
 
+    // Carga un profesor para el formulario de edición
     public function editar($id)
     {
         $profesor = Profesor::find($id);
@@ -82,6 +85,7 @@ class ControladorProfesor extends Controller
         ]);
     }
 
+    // Actualiza los datos de un profesor, y sincroniza su usuario asociado
     public function actualizar($id, Request $request)
     {
         $request->validate([
@@ -117,9 +121,11 @@ class ControladorProfesor extends Controller
         ]);
     }
 
+    // Sincroniza los datos del usuario cuando se actualiza un profesor
     private function sincronizarUsuarioProfesor(Profesor $profesor, Request $request)
     {
         if ($profesor->idusuario) {
+            // Si ya hay usuario vinculado, lo actualizamos
             $usuario = Usuario::find($profesor->idusuario);
         } else {
             $usuario = new Usuario();
@@ -138,6 +144,7 @@ class ControladorProfesor extends Controller
         }
     }
 
+    // Elimina un profesor y su cuenta de usuario asociada
     public function eliminarData($id)
     {
         try {
@@ -150,14 +157,12 @@ class ControladorProfesor extends Controller
                 ], 404);
             }
 
-            // Guardamos el ID del usuario vinculado antes de borrar el profesor
             $idUsuario = $profesor->idusuario;
 
-            DB::transaction(function () use ($profesor, $idUsuario) {
-                // 1. Borramos el registro del profesor
-                $profesor->delete();
+        //Borramos todo registro del profesor
 
-                // 2. Borramos la cuenta de usuario global si existe vinculada
+            DB::transaction(function () use ($profesor, $idUsuario) {
+                $profesor->delete();
                 if ($idUsuario) {
                     Usuario::where('id', $idUsuario)->delete();
                 }
@@ -168,8 +173,10 @@ class ControladorProfesor extends Controller
                 'mensaje' => 'Profesor y su cuenta de usuario borrados correctamente.'
             ]);
 
+
+        //Control de error 'deleteoncascade'
+        
         } catch (\Exception $e) {
-            // Si hay restricciones de clave foránea (ej. el profesor subió recursos o tiene eventos), saltará aquí
             return response()->json([
                 'status' => 500,
                 'mensaje' => 'No se pudo eliminar al profesor. Asegúrate de que no tenga recursos vinculados o eventos asignados.'
@@ -177,6 +184,7 @@ class ControladorProfesor extends Controller
         }
     }
 
+    // Muestra la lista de profesores y niveles en el panel interno
     public function mostrarData()
     {
         $profesor = Profesor::all();
@@ -187,12 +195,14 @@ class ControladorProfesor extends Controller
         ]);
     }
 
+    // Consulta los datos de un profesor para la vista pública de consulta
     public function consultarData($id)
     {
         $profesor = (new Profesor())->obtenerProfesor($id);
         return view('consultarprofesor', compact('profesor'));
     }
 
+    // Recarga la lista de profesores con su nivel para mostrar en tablas
     public function recargar()
     {
         $profesor = Profesor::with('nivel')->get()->values();

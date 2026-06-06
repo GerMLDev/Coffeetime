@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Nivel;
 
+// Modelo de profe con nivel asignado
 class Profesor extends Model
 {
     protected $table = "profesor";

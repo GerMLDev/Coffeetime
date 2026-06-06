@@ -3,6 +3,7 @@
 
     //API publica - Palabra del Día
 
+    // Carga una cita aleatoria de la API pública para la portada
     function cargarPalabraDelDia() {
         var palabraElemento = document.getElementById("palabra-del-dia");
         if (!palabraElemento) {

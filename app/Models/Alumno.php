@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Nivel;
 use App\Models\Profesor;
 
+// Modelo de alumno con nivel y profe
 class Alumno extends Model
 {
     protected $table = "alumno";
 
-//Funciones para recuperar nivelees y profesores (funcion Recargar())
+//Recuperar nivelees y profesores (funcion Recargar())
     public function nivel(){
         return $this->belongsTo(Nivel::class, 'idnivel');
 
@@ -21,6 +22,7 @@ class Alumno extends Model
 
     }
 
+    // Obtiene el alumno con su profe y nivel por ID
     public function obtenerAlumno($id)
     {
         return self::select(
@@ -34,7 +36,8 @@ class Alumno extends Model
         ->first();
     }
 
-    
+
+    // Lista los alumnos de un profe con su nivel buscando por ID del profesor
     public function obtenerProfesordeAlumno($id)
     {
         return self::select(
@@ -47,7 +50,7 @@ class Alumno extends Model
 
     }
 
-
+    // Cuenta cuántos alumnos hay por nivel (dashboard)
     static public function getAlumnosPorNivel(){
         return self::select(
             'nivel.nivel',
@@ -59,9 +62,9 @@ class Alumno extends Model
         ->get();
     }
 
+    // Cuenta alumnos por cada profe (dashboardProfe)
     static public function getAlumnosPorProfesor(){
         return self::select(
-
         DB::raw("CONCAT(nombre_profesor, ' ', apellidos_profesor) AS PROFESOR"),
         DB::raw("COUNT(*) AS cantidad"))
         ->join('profesor','profesor.id','=','alumno.idprofesor')

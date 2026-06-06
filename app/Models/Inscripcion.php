@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+// Modelo de inscripción conectando alumno y evento
 class Inscripcion extends Model
 {
     protected $table = 'inscripciones';
@@ -16,6 +17,7 @@ class Inscripcion extends Model
         return $this->belongsTo(Alumno::class, 'idalumno');
     }
 
+    // Relación con el evento inscrito
     public function evento()
     {
         return $this->belongsTo(Evento::class, 'idevento');

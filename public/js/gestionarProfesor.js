@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Inicializa la tabla de profesores si está en la página
     var tablavista = document.getElementById("tablaProfesor");
     if (!tablavista) {
         return;
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var eliminar = tablavista.dataset.eliminar;
     var csrf = tablavista.dataset.csrf;
 
+    // Configura DataTable para listar profesores en español
     var tabla = new DataTable("#tablaProfesor", {
         language: {
             url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
@@ -65,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
     });
 
+    // Maneja clics de editar o borrar en la tabla de profesores
     document
         .querySelector("#tablaProfesor")
         .addEventListener("click", function (event) {
@@ -144,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
+    // Envía los cambios del profesor y recarga la tabla
     document
         .getElementById("profesor-edit-form")
         .addEventListener("submit", function (event) {

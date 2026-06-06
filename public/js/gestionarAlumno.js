@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Inicializa la tabla de alumnos si existe
     var tablavista = document.getElementById("tablaAlumno");
     if (!tablavista) {
         return;
@@ -10,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var eliminar = tablavista.dataset.eliminar;
     var csrf = tablavista.dataset.csrf;
 
+    // Configura DataTable para listar alumnos con designación clara de columnas
     var tabla = new DataTable("#tablaAlumno", {
         language: {
             url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
@@ -60,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
     });
 
+    // Maneja acciones de editar y borrar en la tabla de alumnos
     document.querySelector("#tablaAlumno").addEventListener("click", function (event) {
         var target = event.target;
         if (target.matches(".edit-btn")) {
@@ -138,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Envía la actualización del alumno y refresca la tabla
     document.getElementById("alumno-edit-form").addEventListener("submit", function (event) {
         event.preventDefault();
         var id = document.getElementById("edit-id").value;
