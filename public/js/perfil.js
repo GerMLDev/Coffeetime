@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var password = form.querySelector('[name="contraseña"]').value;
         if (password) {
-            // Validación rápida del largo de la contraseña antes de enviar
+            // Validación de la contraseña
             if (password.length < 8) {
                 alert("La contraseña debe tener al menos 8 caracteres.");
                 return;

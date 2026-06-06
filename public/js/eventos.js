@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert(json.mensaje);
             });
         }
-
+//Si tiene los permisos aadecuados, se habilita el botón para ver alumnos inscritos al evento
         if (target.matches(".ver-inscritos-btn")) {
             fetch(inscritos.replace(":id", id), {
                 headers: { "X-CSRF-TOKEN": csrf }
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 new bootstrap.Modal(document.getElementById("inscritosModal")).show();
             });
         }
-
+//Si es alumno, se habilita el botón de inscripción
         if (target.matches(".inscribir-btn")) {
             fetch(inscribir.replace(":id", id), {
                 method: "POST",
@@ -142,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(r => r.json())
             .then(json => { alert(json.message); tabla.ajax.reload(); });
         }
+//Si es alumno y ya está inscrito, se habilita el botón de cancelar inscripción
 
         if (target.matches(".cancelar-inscripcion-btn")) {
             if (!confirm("¿Estás seguro de que deseas cancelar tu inscripción?")) return;

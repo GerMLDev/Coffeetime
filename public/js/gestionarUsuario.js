@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Inicializa la tabla de usuarios si está presente en la página
+    // Inicializa la tabla de usuarios de la vista
     var tablavista = document.getElementById("tablaUsuario");
     if (!tablavista) {
         return;
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var eliminar = tablavista.dataset.eliminar;
     var csrf = tablavista.dataset.csrf;
 
-    // Configura DataTable para mostrar la lista de usuarios con español
+    // Lista usuarios para editar o eliminar
     var tabla = new DataTable("#tablaUsuario", {
         language: {
             url: "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
     });
 
-    // Maneja los clics sobre editar o eliminar dentro de la tabla de usuarios
+    // Acciones editar o eliminar 
     document.querySelector("#tablaUsuario").addEventListener("click", function (event) {
         var target = event.target;
         if (target.matches(".edit-btn")) {

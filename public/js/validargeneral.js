@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Comprueba que el campo no esté vacío y pinta borde rojo si falta algo
+    //campo de rojo si está vacío
     function validarCampo(campo) {
         if (!campo.value.trim()) {
             campo.style.border = "2px solid red";
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
         }
     }
-    // Valida que el DNI tenga 8 números y una letra mayúscula
+    //valida el DNI (8 números y 1 letra)
     function validarDNI(campo) {
         var valor = campo.value.trim().toUpperCase();
         if (!valor || !/^\d{8}[A-Z]$/.test(valor)) {
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
         }
     }
-    // Valida el formato del email y muestra error si no es válido
+    //valida el email
     function validarEmail(campo) {
         var valor = campo.value.trim();
         var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
         }
     }
-    // Valida que la contraseña tenga al menos 8 caracteres
+    //valida contraseña
     function validarPassword(campo) {
         if (campo.value.length < 8) {
             campo.style.border = "2px solid red";
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //FORMULARIOS DEL GESTOR
 
-    // ALUMNO: valida el formulario de creación de alumno antes de enviarlo
+    // ALUMNO
     var formAlumno = document.getElementById("alumno-crear-form");
     if (formAlumno) {
         formAlumno.addEventListener("submit", function (e) {
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // PROFESOR: valida el formulario de creación de profesor antes de enviarlo
+    //PROFESOR
     var formProfesor = document.getElementById("profesor-crear-form");
     if (formProfesor) {
         formProfesor.addEventListener("submit", function (e) {
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // USUARIO: valida el formulario de nuevo usuario antes de enviar
+    //USUARIO
     var formUsuario = document.getElementById("usuario-crear-form");
     if (formUsuario) {
         formUsuario.addEventListener("submit", function (e) {
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ALUMNO (web): valida el formulario de registro web del alumno
+    //ALUMNO (web)
     var formWebAlumno = document.getElementById("web-alumno-crear-form");
     if (formWebAlumno) {
         formWebAlumno.addEventListener("submit", function (e) {
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // EVENTO: valida campos obligatorios del formulario de evento
+    //Eventos
     var formEvento = document.getElementById("evento-crear-form");
     if (formEvento) {
         formEvento.addEventListener("submit", function (e) {
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // RECURSO: valida título y enlace antes de crear un recurso
+    // Recurso
     var formRecurso = document.getElementById("recurso-crear-form");
     if (formRecurso) {
         formRecurso.addEventListener("submit", function (e) {
@@ -188,12 +188,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-
-
-
-
-// Muestra un mensaje de error junto al campo y mantiene el estilo rojo
 function mostrarError(campo, mensaje) {
 
     var siguiente = campo.nextElementSibling;
@@ -208,7 +202,6 @@ function mostrarError(campo, mensaje) {
     }
 }
 
-// Elimina el mensaje de error si el campo es válido de nuevo
 function limpiarError(campo) {
     var siguiente = campo.nextElementSibling;
     if (siguiente && siguiente.classList.contains("error-campo")) {
