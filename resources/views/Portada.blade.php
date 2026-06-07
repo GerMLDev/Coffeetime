@@ -87,23 +87,31 @@
         {{-- CONTENIDO PORTADA --}}
         <main>
             <div class="seccion">
+                <div id="imagenportada">
+                    <img src="{{ asset('images/cabecerocoffeetiime.png') }}" alt="CoffeeTime banner" class="imagen-responsive">
+                </div>
                 <h2>¿Quiénes somos?</h2>
                 <p><strong>CoffeeTime: Let's talk! </strong>nació con una idea sencilla: practicar un idioma
                     debería ser tan natural como tomarse un café con alguien. Somos una plataforma de conversación en
                     línea donde alumnos de todos los niveles se reúnen en pequeños grupos para practicar inglés o
-                    español en un ambiente relajado y sin presión. Nada de exámenes. Nada de deberes obligatorios. Solo
+                    español en un ambiente relajado y sin presión. Nada de exámenes.
+                </p>
+                <p>Nada de deberes obligatorios. Solo
                     conversación real, guiada por un profesor-moderador que facilita el intercambio, resuelve dudas y
                     hace que cada sesión sea fluida y entretenida. Creemos que el mejor aprendizaje ocurre cuando te
                     olvidas de que estás aprendiendo. Por eso nuestros coffeetimes no son clases al uso: son encuentros
-                    virtuales donde el idioma es el vehículo, y la curiosidad, el motor. </p>
+                    virtuales donde el idioma es el vehículo, y la curiosidad, el motor.</p>
             </div>
-            {{-- <div class="seccion">
-                <h2>Palabra del día</h2>
-                <div class="alert alert-secondary" id="palabra-del-dia">
-                    Cargando palabra del día...
-                </div>
-            </div> --}}
             <div class="seccion">
+                <h5>Frase del día</h5>
+                <div class="" id="frase-del-dia">
+                    Cargando frase del día...
+                </div>
+            </div>
+            <div class="seccion">
+                <div class="imagen-portada2">
+                    <img src="{{ asset('images/videollamada.webp') }}" alt="CoffeeTime logo" class="imagen-responsive">
+                </div>
                 <h2>¿Cómo funciona?</h2>
                 <p>Participar en CoffeeTime es muy fácil. Sigue estos pasos:
                 <ol>

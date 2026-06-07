@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Recurso extends Model
 {
     protected $table = "recursos";
-    protected $fillable = ['titulo', 'tipo', 'enlace', 'idprofesor'];
+    protected $fillable = ['titulo', 'tipo', 'enlace', 'idprofesor', 'idnivel'];
 
 
     //Recuperar niveles y profesores

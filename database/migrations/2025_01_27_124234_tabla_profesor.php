@@ -16,9 +16,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_profesor');
             $table->string('apellidos_profesor');
-            $table->string('email_profesor');
-            $table->string('dni_profesor');
-            $table->string('usuario_prof');
+            $table->string('email_profesor')->unique();
+            $table->string('dni_profesor')->unique();
+            $table->string('usuario_prof')->unique();
             $table->string('contrasena_prof');
 
 

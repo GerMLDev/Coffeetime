@@ -262,6 +262,22 @@ main > div {
 #contenidoportada {
     margin: 2%;
 }
+#imagenportada,
+.imagen-portada2 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+#imagenportada img,
+.imagen-portada2 img,
+.imagen-responsive {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
 .seccion{
     padding: 3% 5%;
     text-align: justify;
@@ -554,6 +570,11 @@ footer {
         padding: 2rem 1.5rem;
     }
 
+     #imagenportada,
+    .imagen-portada2 {
+        margin-bottom: 1rem;
+    }
+
     .footer-container {
         width: calc(100% - 2rem);
     }
@@ -661,6 +682,13 @@ footer {
     .seccion {
         padding: 1.5rem 1rem;
     }
+
+     #imagenportada,
+    .imagen-portada2 {
+        margin-bottom: 1rem;
+    }
+
+
     /*Informate*/
 
     #formulario-contacto {

@@ -75,13 +75,21 @@ class ControladorRecurso extends Controller
 
         if ($user->idrol == 1) {
             // Si es admin, usa el profe elegido por el formulario
-            $recurso->idprofesor = $request->idprofesor;
+            $profesorId = $request->idprofesor;
         } else {
             // Si no es admin, asigna al profe vinculado al usuario actual
             $profesor = Profesor::where('idusuario', $user->id)->first();
-            $recurso->idprofesor = $profesor->id;
+            $profesorId = $profesor->id;
         }
 
+        if (Recurso::where('enlace', $request->enlace)->where('idprofesor', $profesorId)->exists()) {
+            return response()->json([
+                'status'  => 409,
+                'message' => 'Ya existe un recurso con el mismo enlace para este profesor.',
+            ], 409);
+        }
+
+        $recurso->idprofesor = $profesorId;
         $recurso->save();
 
         return response()->json([

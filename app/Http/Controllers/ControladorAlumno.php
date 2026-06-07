@@ -30,13 +30,13 @@ class ControladorAlumno extends Controller
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'dni' => 'required|string|max:20',
-            'usuario' => 'required|string|max:255',
-            'contraseña' => 'required|string|min:6',
+            'dni' => 'required|string|regex:/^\d{8}[A-Z]$/|unique:alumno,dni',
+            'usuario' => 'required|string|max:255|unique:alumno,usuario',
+            'contraseña' => 'required|string|min:8',
             'idnivel' => 'required|integer|exists:nivel,id',
         ]);
 
-         //Notificacion de duplicidad
+        //Notificacion de duplicidad
 
         if (Usuario::where('usuario', $request->usuario)->first()) {
             return redirect()->back()->with('error', 'El nombre de usuario ya está en uso.');
@@ -88,14 +88,14 @@ class ControladorAlumno extends Controller
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'dni' => 'required|string|max:20',
-            'usuario' => 'required|string|max:255',
-            'contraseña' => 'required|string|min:6',
+            'dni' => 'required|string|regex:/^\d{8}[A-Z]$/|unique:alumno,dni',
+            'usuario' => 'required|string|max:255|unique:alumno,usuario',
+            'contraseña' => 'required|string|min:8',
             'idnivel' => 'required|integer|exists:nivel,id',
             'idprofesor' => 'required|integer|exists:profesor,id',
         ]);
 
-         //Notificacion de duplicidad
+        //Notificacion de duplicidad
 
         if (Usuario::where('usuario', $request->usuario)->first()) {
             return redirect()->back()->with('error', 'El nombre de usuario ya está en uso.');
@@ -171,9 +171,9 @@ class ControladorAlumno extends Controller
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:alumno,email,' . $id,
-            'dni' => 'required|string|max:20|unique:alumno,dni,' . $id,
+            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:alumno,dni,' . $id,
             'usuario' => 'required|string|max:255|unique:alumno,usuario,' . $id,
-            'contraseña' => 'nullable|string|min:6',
+            'contraseña' => 'nullable|string|min:8',
             'nivel' => 'required|integer|exists:nivel,id',
             'profesor' => 'required|integer|exists:profesor,id',
         ]);
@@ -201,7 +201,8 @@ class ControladorAlumno extends Controller
     }
 
     // Muestra todos los alumnos en la gestión
-    public function mostrarData(){
+    public function mostrarData()
+    {
         $alumno = Alumno::all();
 
         return view('gestionaralumno', [
@@ -210,7 +211,8 @@ class ControladorAlumno extends Controller
     }
 
     // Elimina un alumno por id
-    public function eliminarData($id){
+    public function eliminarData($id)
+    {
 
         $alumno = Alumno::where('id', $id)->first();
 
@@ -244,8 +246,9 @@ class ControladorAlumno extends Controller
     }
 
     // Muestra dashboard de alumnos por profesor
-    public function dashboardProfesor(){
-        
+    public function dashboardProfesor()
+    {
+
         $datos = (new Alumno())->getAlumnosPorProfesor();
 
         // Solo carga los alumnos del profe logueado
@@ -265,7 +268,7 @@ class ControladorAlumno extends Controller
         $usuario = Usuario::find($user->id);
 
         $validaciones = [
-            'contraseña' => 'nullable|string|min:6',
+            'contraseña' => 'nullable|string|min:8',
         ];
 
         if ($user->idrol == 3) {

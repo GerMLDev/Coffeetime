@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //valida el DNI (8 números y 1 letra)
     function validarDNI(campo) {
-        var valor = campo.value.trim().toUpperCase();
+        var valor = campo.value.trim();
         if (!valor || !/^\d{8}[A-Z]$/.test(valor)) {
             campo.style.border = "2px solid red";
             mostrarError(

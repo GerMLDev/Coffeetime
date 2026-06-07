@@ -17,9 +17,9 @@ class ControladorUsuario extends Controller
     //Validación en servidor
         $request->validate([
             'usuario' => 'required|string|max:255|unique:usuario,usuario',
-            'contraseña' => 'required|string|min:6',
+            'contraseña' => 'required|string|min:8',
             'email' => 'required|email|max:255|unique:usuario,email',
-            'dni' => 'required|string|max:20|unique:usuario,dni',
+            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:usuario,dni,',
             'idrol' => 'required|integer|exists:rol,id',
         ]);
 
@@ -59,9 +59,9 @@ class ControladorUsuario extends Controller
     {
         $request->validate([
             'usuario' => 'required|string|max:255|unique:usuario,usuario',
-            'contraseña' => 'required|string|min:6',
+            'contraseña' => 'required|string|min:8',
             'email' => 'required|email|max:255|unique:usuario,email',
-            'dni' => 'required|string|max:20|unique:usuario,dni',
+            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:usuario,dni,',
             'idrol' => 'required|integer|exists:rol,id',
         ]);
 
@@ -127,7 +127,7 @@ class ControladorUsuario extends Controller
             'usuario' => 'required|string|max:255|unique:usuario,usuario,' . $id,
             'contraseña' => 'nullable|string|min:8',
             'email' => 'required|email|max:255|unique:usuario,email,' . $id,
-            'dni' => 'required|string|max:20|unique:usuario,dni,' . $id,
+            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:usuario,dni,' . $id,
             'rol' => 'required|integer|exists:rol,id',
         ]);
 

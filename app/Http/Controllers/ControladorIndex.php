@@ -136,7 +136,7 @@ class ControladorIndex extends Controller
         }
 
         if (!$perfil) {
-            return redirect('/')->with('error', 'No se encontró el perfil asociado a este usuario.');
+            return redirect('/')->with('error', 'No se encontró el perfil asociado a este usuario o no tienes permiso para acceder.');
         }
 
         return view('perfil', compact('perfil'));

@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/general.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -26,13 +27,9 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-12 col-xl-10">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4 p-md-5 bg-light rounded">
-                        <h1 class="text-center titulo-pagina-amarillo">Gestionar Usuario</h1>
-                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
+    <div class="container mt-5 bg-light p-4 rounded shadow contenedor-formulario">
+        <h1 class="text-center titulo-pagina-amarillo">Gestionar Usuario</h1>
+        <div class="d-flex justify-content-between align-items-center mb-3">
 
             <a href="{{ route('gestor') }}" class="btn btn-outline-secondary">
                 Volver al gestor
@@ -47,7 +44,7 @@
 
         </div>
         <hr>
-        <div class="table-responsive mt-4">
+        <div class="container mt-5">
             <h3 class="display-4 text-center text-dark py-3 border-bottom border-top border-dark">
                 Selecciona el usuario
             </h3>
@@ -125,9 +122,7 @@
                     </div>
                 </div>
             @endif
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <script src="{{ asset('js/gestionarUsuario.js') }}"></script>

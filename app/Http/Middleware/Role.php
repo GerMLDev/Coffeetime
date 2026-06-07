@@ -4,9 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Log;
-use function Laravel\Prompts\error;
 
 class Role
 {
@@ -15,11 +13,13 @@ class Role
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+
+
     public function handle(Request $request, Closure $next, ...$rol)
     {
         Log::info('Middleware ejecutado. Rol esperado: ' . $rol[0]);
         Log::info('Rol del usuario autenticado: ' . $request->user()->hasRole($rol));
-    
+
         foreach ($rol as $r) {
             if ($request->user()->hasRole($r)) {
                 return $next($request);

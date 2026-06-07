@@ -18,10 +18,10 @@ class ControladorProfesor extends Controller
         $request->validate([
             'nombre_profesor' => 'required|string|max:255',
             'apellidos_profesor' => 'required|string|max:255',
-            'email_profesor' => 'required|email|max:255',
-            'dni_profesor' => 'required|string|max:20',
-            'usuario_prof' => 'required|string|max:255',
-            'contrasena_prof' => 'required|string|min:6',
+            'email_profesor' => 'required|email|max:255|unique:profesor,email_profesor',
+            'dni_profesor' => 'required|string|max:20|unique:profesor,dni_profesor',
+            'usuario_prof' => 'required|string|max:255|unique:profesor,usuario_prof',
+            'contrasena_prof' => 'required|string|min:8',
             'idnivel' => 'required|integer|exists:nivel,id',
         ]);
 
@@ -39,7 +39,7 @@ class ControladorProfesor extends Controller
         }
 
         DB::transaction(function () use ($request) {
-            // Crea usuario y profesor en la misma transacción
+            // Crea usuario y profesor en la misma transacción, si falla uno, no se crea el otro
             $usuario = new Usuario();
             $usuario->usuario = $request->usuario_prof;
             $usuario->contraseña = Hash::make($request->contrasena_prof);
@@ -94,7 +94,7 @@ class ControladorProfesor extends Controller
             'email_profesor' => 'required|email|max:255|unique:profesor,email_profesor,' . $id,
             'dni_profesor' => 'required|string|max:20|unique:profesor,dni_profesor,' . $id,
             'usuario_prof' => 'required|string|max:255|unique:profesor,usuario_prof,' . $id,
-            'contrasena_prof' => 'nullable|string|min:6',
+            'contrasena_prof' => 'nullable|string|min:8',
             'idnivel' => 'required|integer|exists:nivel,id',
         ]);
 
@@ -159,7 +159,7 @@ class ControladorProfesor extends Controller
 
             $idUsuario = $profesor->idusuario;
 
-        //Borramos todo registro del profesor
+        //Borramos todo registro del profesor en una transacción, si falla el borrado de uno, no se borra el otro
 
             DB::transaction(function () use ($profesor, $idUsuario) {
                 $profesor->delete();
@@ -175,7 +175,7 @@ class ControladorProfesor extends Controller
 
 
         //Control de error 'deleteoncascade'
-        
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
@@ -195,14 +195,14 @@ class ControladorProfesor extends Controller
         ]);
     }
 
-    // Consulta los datos de un profesor para la vista pública de consulta
+    // Consulta los datos de un profesor
     public function consultarData($id)
     {
         $profesor = (new Profesor())->obtenerProfesor($id);
         return view('consultarprofesor', compact('profesor'));
     }
 
-    // Recarga la lista de profesores con su nivel para mostrar en tablas
+    // Recarga la lista de profesores con su nivel
     public function recargar()
     {
         $profesor = Profesor::with('nivel')->get()->values();

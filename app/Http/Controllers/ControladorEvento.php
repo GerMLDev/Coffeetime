@@ -20,8 +20,9 @@ class ControladorEvento extends Controller
         $alumnoId = null;
         $alumnoProfesorId = null;
         $profesorId = null;
-
         $query = Evento::with(['nivel', 'profesor']);
+
+
         //Filtro para alumnos
         if ($user && $user->idrol == 3) {
             $alumno = Alumno::where('usuario', $user->usuario)->first();
@@ -38,9 +39,12 @@ class ControladorEvento extends Controller
                 ]);
             }
         }
-//Filtro de profesores
+
+
+        //Filtro de profesores
         if ($user && $user->idrol == 2) {
             $profesor = Profesor::where('idusuario', $user->id)->first();
+
             if ($profesor) {
                 $profesorId = $profesor->id;
                 $query->where('idprofesor', $profesorId);
@@ -48,18 +52,23 @@ class ControladorEvento extends Controller
         }
 
         $eventos = $query->get()->map(function ($evento) use ($alumnoId, $profesorId, $user) {
+
             $inscrito = false;
+
             if ($alumnoId) {
                 $inscrito = Inscripcion::where('idalumno', $alumnoId)
                     ->where('idevento', $evento->id)
                     ->exists();
             }
-//Si tiene permiso, elimina
+            //Si tiene permiso, elimina
+
             $puedeEliminar = false;
             $puedeVerInscritos = false;
+
             if ($user && $user->idrol == 1) {
                 $puedeEliminar = true;
                 $puedeVerInscritos = true;
+
             } elseif ($user && $user->idrol == 2 && $evento->idprofesor == $profesorId) {
                 $puedeEliminar = true;
                 $puedeVerInscritos = true;
@@ -112,13 +121,26 @@ class ControladorEvento extends Controller
         }
 
         $request->validate($validaciones);
-//Recupera el profesor logueado para el evento
+        //Recupera el profesor logueado para el evento
         $profesor = $this->obtenerProfesorParaEvento($user, $request);
         if (! $profesor) {
             return response()->json([
                 'status'  => 422,
                 'message' => 'No existe un profesor vinculado al usuario autenticado.',
             ], 422);
+        }
+
+//Controla que el evento no se dupliqe
+
+        if (Evento::where('titulo', $request->titulo)
+            ->where('fecha', $request->fecha)
+            ->where('hora', $request->hora)
+            ->where('idprofesor', $profesor->id)
+            ->exists()) {
+            return response()->json([
+                'status'  => 409,
+                'message' => 'Evento duplicado',
+            ], 409);
         }
 
         $evento = new Evento();
@@ -196,7 +218,7 @@ class ControladorEvento extends Controller
         if (!$evento) {
             return response()->json(['status' => 404, 'message' => 'Evento no encontrado.'], 404);
         }
-    //Creación de inscripción
+        //Creación de inscripción
         Inscripcion::create([
             'idalumno' => $alumno->id,
             'idevento' => $evento->id,
@@ -265,28 +287,29 @@ class ControladorEvento extends Controller
 
     // Cancela la inscripción de un alumno y manda email de aviso
 
-    public function cancelarInscripcion($id){
-    $user = Auth::user();
+    public function cancelarInscripcion($id)
+    {
+        $user = Auth::user();
 
-    $alumno = Alumno::where('usuario', $user->usuario)->first();
-    $inscripcion = Inscripcion::where('idalumno', $alumno->id)
-        ->where('idevento', $id)
-        ->first();
+        $alumno = Alumno::where('usuario', $user->usuario)->first();
+        $inscripcion = Inscripcion::where('idalumno', $alumno->id)
+            ->where('idevento', $id)
+            ->first();
 
-    if (!$inscripcion) {
-        return response()->json(['status' => 404, 'message' => 'Inscripción no encontrada.'], 404);
-    }
+        if (!$inscripcion) {
+            return response()->json(['status' => 404, 'message' => 'Inscripción no encontrada.'], 404);
+        }
 
-    $evento = Evento::find($id);
-    $inscripcion->delete();
+        $evento = Evento::find($id);
+        $inscripcion->delete();
 
-    // Email de confirmación de cancelación
-    $contacto = new ControladorContacto();
-    $contacto->confirmarCancelacion($alumno->nombre, $alumno->apellidos, $alumno->email,        $evento->titulo,$evento->fecha, $evento->hora);
+        // Email de confirmación de cancelación
+        $contacto = new ControladorContacto();
+        $contacto->confirmarCancelacion($alumno->nombre, $alumno->apellidos, $alumno->email,        $evento->titulo, $evento->fecha, $evento->hora);
 
-    return response()->json([
-        'status' => 200,
-        'message' => 'Inscripción cancelada correctamente.'
-    ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Inscripción cancelada correctamente.'
+        ]);
     }
 }
