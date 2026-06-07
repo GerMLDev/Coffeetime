@@ -25,3 +25,14 @@
     }
 
     palabraDia();
+
+    //Links a RRSS en proceso
+    var rrss = document.querySelectorAll('.footer-rrss-links');
+    if (rrss.length > 0) {
+        rrss.forEach((link) => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                alert('Estamos trabajando en ello... ¡Próximamente en funcionamiento!');
+            });
+        });
+    }

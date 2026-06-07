@@ -20,26 +20,23 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5 bg-light p-4 rounded shadow contenedor-formulario">
-        <h2 class="text-center titulo-pagina-azul-oscuro">Alumnos por Profesor</h2>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-
-            <a href="{{ route('gestor') }}" class="btn btn-outline-secondary">
-                Volver al gestor
-            </a>
-
-            <form action="{{ route('logout') }}" method="POST" class="m-0">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger">
-                    Cerrar Sesión
-                </button>
-            </form>
-
-        </div>
-        <hr>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5 bg-light rounded">
+                        <h2 class="h4 text-center titulo-pagina-azul-oscuro mb-4">Alumnos por Profesor</h2>
+                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
+                            <a href="{{ route('gestor') }}" class="btn btn-outline-secondary flex-fill">Volver al gestor</a>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0 flex-fill">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger w-100">Cerrar Sesión</button>
+                            </form>
+                        </div>
+                        <hr class="mb-4">
         @if (auth()->user()->hasRole('admin'))
-            <div class="container mt-5 d-flex justify-content-center">
-                <canvas id="dashboard" class="d-flex justify-content-center w-50 h-50" data-panel='@json($datos)'></canvas>
+            <div class="ratio ratio-16x9 mb-4">
+                <canvas id="dashboard" data-panel='@json($datos)'></canvas>
             </div>
             <script src="{{ asset('js/dashboardProfe.js') }}"></script>
         @elseif (auth()->user()->hasRole('profesor'))
@@ -75,8 +72,11 @@
             </table>
         </div>
         @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 
     <script>
      var datos = @json($datos);

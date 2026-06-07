@@ -21,33 +21,37 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container my-5 bg-light p-5 rounded shadow">
-        <h1 class="display-4 text-center text-dark py-3 border-bottom border-top border-dark mb-4">
-            SISTEMA GESTOR DE DATOS
-        </h1>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5 bg-light rounded">
+                        <h1 class="display-4 text-center text-dark py-3 border-bottom border-top border-dark mb-4">
+                            SISTEMA GESTOR DE DATOS
+                        </h1>
 
-        @auth
-            <div class="text-center mb-4">
-                <h2 class="fs-4 text-secondary">Bienvenido, <strong
-                        class="text-dark">{{ auth()->user()->usuario }}</strong>.</h2>
-            </div>
-        @endauth
+                        @auth
+                            <div class="text-center mb-4">
+                                <h2 class="fs-5 text-secondary">Bienvenido, <strong
+                                        class="text-dark">{{ auth()->user()->usuario }}</strong>.</h2>
+                            </div>
+                        @endauth
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
 
-            <a href="{{ route('home') }}" class="btn btn-outline-secondary">
-                Volver a la portada
-            </a>
+                            <a href="{{ route('home') }}" class="btn btn-outline-secondary flex-fill">
+                                Volver a la portada
+                            </a>
 
-            <form action="{{ route('logout') }}" method="POST" class="m-0">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger">
-                    Cerrar Sesión
-                </button>
-            </form>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0 flex-fill">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger w-100">
+                                    Cerrar Sesión
+                                </button>
+                            </form>
 
-        </div>
-        <div class="row justify-content-center mt-5">
+                        </div>
+                        <div class="row justify-content-center mt-5 g-4">
             <!-- Registro de Profesores -->
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm p-4">
@@ -114,7 +118,10 @@
                                     por
                                     Nivel</button>
                             </form>
-            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

@@ -8,8 +8,6 @@
     <title>Registrar Alumno</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="{{ asset('js/validargeneral.js') }}"></script>
-
-
    @if (session('success'))
         <script>
             alert("{{ session('success') }}");
@@ -22,27 +20,24 @@
 
 </head>
 
-<body class="bg-dark espacio-pagina">
-    <div class="container mt-5 bg-light p-4 rounded shadow contenedor-formulario">
-        <h2 class="text-center mb-4 bg-success text-white p-2 rounded">Registrando nuevo alumno</h2>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-
-            <a href="{{ route('gestor') }}" class="btn btn-outline-secondary">
-                Volver al gestor
-            </a>
-
-            <form action="{{ route('logout') }}" method="POST" class="m-0">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger">
-                    Cerrar Sesión
-                </button>
-            </form>
-
-        </div>
-        <hr>
-      <form id="alumno-crear-form" action="{{route('registroalumno')}}" method="post" class="bg-light p-2 rounded shadow-sm">
-    @csrf
-    <div class="row">
+<body class="bg-dark">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5 bg-light rounded">
+                        <h2 class="h4 text-center mb-4 text-success">Registrando nuevo alumno</h2>
+                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
+                            <a href="{{ route('gestor') }}" class="btn btn-outline-secondary flex-fill">Volver al gestor</a>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0 flex-fill">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger w-100">Cerrar Sesión</button>
+                            </form>
+                        </div>
+                        <hr class="mb-4">
+                        <form id="alumno-crear-form" action="{{route('registroalumno')}}" method="post" class="row g-3">
+                            @csrf
+                            <div class="col-12 col-md-6">
         <!-- Nombre -->
         <div class="col-12 col-md-6">
             <label for="nombre" class="form-label">Nombre:</label>
@@ -107,9 +102,14 @@
             </select>
         </div>
     </div>
-    <button type="submit" name="boton" class="btn btn-success mt-3">Registrar datos</button>
-</form>
-
+    <div class="col-12">
+        <button type="submit" name="boton" class="btn btn-success btn-lg w-100 mt-3">Registrar datos</button>
+    </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

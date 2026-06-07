@@ -107,22 +107,24 @@
                     @endif
                 </div>
 
-                <table id="tablaRecursos" class="table table-hover table-bordered align-middle"
-                    data-listar="{{ route('recurso.recargar') }}" data-crear="{{ route('recurso.registrar') }}"
-                    data-eliminar="{{ route('recurso.eliminar', ':id') }}" data-csrf="{{ csrf_token() }}"
-                    data-es-admin="{{ auth()->check() && auth()->user()->idrol == 1 ? '1' : '0' }}">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Título</th>
-                            <th>Nivel</th>
-                            <th>Tipo</th>
-                            <th>Subido por</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="tablaRecursos" class="table table-hover table-bordered align-middle"
+                        data-listar="{{ route('recurso.recargar') }}" data-crear="{{ route('recurso.registrar') }}"
+                        data-eliminar="{{ route('recurso.eliminar', ':id') }}" data-csrf="{{ csrf_token() }}"
+                        data-es-admin="{{ auth()->check() && auth()->user()->idrol == 1 ? '1' : '0' }}">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Título</th>
+                                <th>Nivel</th>
+                                <th>Tipo</th>
+                                <th>Subido por</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
 
                 @if (auth()->user()->idrol == 1 || auth()->user()->idrol == 2)
                     <!-- Modal Subir Recurso -->
@@ -191,35 +193,27 @@
             @endguest
         </main>
     </div>
-    <footer class="py-4">
-        <div class="container">
-            <div class="row align-items-center">
+   <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-row">
 
-                <div class="col-12 col-md-4 text-center text-md-start mb-3 mb-md-0">
-                    <ul class="mb-0 footer-enlaces">
-                        <li class="mb-2">
-                            <a href="#" class="text-decoration-none fw-bold">Términos y Condiciones</a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-decoration-none fw-bold">Política de cookies</a>
-                        </li>
-                    </ul>
+                <div class=" footer-telf">
+                    <p class="footer-contact-text">Si quieres hacerlo a la vieja usanza, llámanos al: <a href="tel:+34615246092" class="footer-link">+34 615 246 092</a></p>
                 </div>
 
-                <div class="col-12 col-md-4 text-center mb-3 mb-md-0">
-                    <div class="footer-iconos d-flex justify-content-center gap-3">
-                        <a href="#" class="text-decoration-none"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="text-decoration-none"><i class="bi bi-telephone-fill"></i></a>
+                <div class=" footer-rrss">
+                    <div class="footer-iconos">
+                        <a href="#" class="footer-rrss-links"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="footer-rrss-links"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="footer-rrss-links"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-4 d-flex justify-content-center justify-content-md-end">
-                    <div class="caja-email d-flex align-items-center p-2 px-3 rounded bg-light text-dark">
-                        <i class="bi bi-envelope-fill me-2 fs-4"></i>
-                        <a href="{{ route('informate') }}" class="text-decoration-none"><span
-                                class="small font-monospace fw-semibold">coffeetimes@gmail.com</span></a>
+                <div class=" footer-email">
+                    <div class="caja-email">
+                        <i class="bi bi-envelope-fill footer-email-icon"></i>
+                        <a href="{{ route('informate') }}" class="footer-email-link"><span
+                                class="footer-email-text">coffeetimes@gmail.com</span></a>
                     </div>
                 </div>
 

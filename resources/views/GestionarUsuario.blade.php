@@ -26,9 +26,13 @@
 </head>
 
 <body class="bg-dark">
-    <div class="container mt-5 bg-light p-4 rounded shadow contenedor-formulario">
-        <h1 class="text-center titulo-pagina-amarillo">Gestionar Usuario</h1>
-        <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5 bg-light rounded">
+                        <h1 class="text-center titulo-pagina-amarillo">Gestionar Usuario</h1>
+                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
 
             <a href="{{ route('gestor') }}" class="btn btn-outline-secondary">
                 Volver al gestor
@@ -43,7 +47,7 @@
 
         </div>
         <hr>
-        <div class="container mt-5">
+        <div class="table-responsive mt-4">
             <h3 class="display-4 text-center text-dark py-3 border-bottom border-top border-dark">
                 Selecciona el usuario
             </h3>
@@ -121,7 +125,9 @@
                     </div>
                 </div>
             @endif
-
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="{{ asset('js/gestionarUsuario.js') }}"></script>

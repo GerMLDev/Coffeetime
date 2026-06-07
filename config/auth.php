@@ -59,6 +59,8 @@ return [
     |
     */
 
+    //DEBIDO A UNA ELECCIÓN PERSONAL, se ha decidido la tabla Usuario como predeterminada para aplicar funciones de AUTH
+
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
