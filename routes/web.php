@@ -102,7 +102,7 @@ Route::middleware(['auth', 'role:admin,profesor'])->group(function () {
     Route::get('/gestionarprofesor', [ControladorProfesor::class, 'mostrarData'])->name('gestionarprofe');
     Route::get('/gestionarprofesor/recargar', [ControladorProfesor::class, 'recargar'])->name('profesor.recargar');
 
-Route::get('/gestionarprofesor/editar/{id}', [ControladorProfesor::class, 'actualizar'])->where(array('id' => '[0-9]*'))->name('profesor.editar');
+Route::get('/gestionarprofesor/editar/{id}', [ControladorProfesor::class, 'editar'])->where(array('id' => '[0-9]*'))->name('profesor.editar');
     Route::post('/gestionarprofesor/editar/{id}', [ControladorProfesor::class, 'actualizar'])->where(array('id' => '[0-9]*'))->name('profesor.actualizar');
     Route::delete('/gestionarprofesor/eliminar/{id}', [ControladorProfesor::class, 'eliminarData'])->where(array('id' => '[0-9]*'))->name('profesor.eliminar');
 

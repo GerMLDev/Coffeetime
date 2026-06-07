@@ -102,9 +102,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         var profesorSelect = document.getElementById("profesor");
                         profesorSelect.innerHTML = "";
                         profesores.forEach(function (profesor) {
+                            var nivelProfesor = niveles.find(function (nivel) {
+                                return nivel.id === profesor.idnivel;
+                            });
+                            var nivelprofesor = nivelProfesor ? " - " + nivelProfesor.nivel : "";
                             var option = document.createElement("option");
                             option.value = profesor.id;
-                            option.text = profesor.nombre_profesor;
+                            option.text = profesor.nombre_profesor + nivelprofesor;
                             profesorSelect.appendChild(option);
                         });
                         profesorSelect.value = alumno.idprofesor;
@@ -145,9 +149,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("alumno-edit-form").addEventListener("submit", function (event) {
         event.preventDefault();
         var id = document.getElementById("edit-id").value;
+        var url = actualizar.replace(":id", id);
         var formData = new FormData(this);
+            console.log("URL actualizar:", url);
 
-        fetch(actualizar.replace(":id", id), {
+        fetch(url, {
             method: "POST",
             headers: {
                 "X-CSRF-TOKEN": csrf,
@@ -159,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (json.status === 200) {
                     alert(json.message);
                     this.reset();
-                    new bootstrap.Modal(document.getElementById("editModal")).hide();
+                bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
                     tabla.ajax.reload();
                 } else {
                     alert(json.message);

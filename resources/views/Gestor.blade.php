@@ -85,11 +85,7 @@
                                     <div class="card shadow-sm p-4">
                                         <h3 class="text-center mb-4">Registro de Usuarios</h3>
                                         <div class="d-grid gap-2 col-6 mx-auto">
-                                            <form action="{{ route('api') }}">
-                                                <button type="submit" class="btn btn-info w-100 text-white">API -
-                                                    Listado
-                                                    de usuarios</button>
-                                            </form>
+
 
                                             <form action="{{ route('agregarusuario') }}">
                                                 <button type="submit" class="btn btn-success w-100">Añadir
@@ -99,6 +95,9 @@
                                                 <button type="submit"
                                                     class="btn btn-warning w-100 text-white">Gestionar
                                                     Usuarios</button>
+                                            </form>
+                                            <form action="{{ route('api') }}">
+                                                <button type="submit" class="btn btn-primary w-100 text-white">                           API - Listado de usuarios</button>
                                             </form>
                                         </div>
                                     </div>

@@ -11,6 +11,10 @@ use App\Models\Profesor;
 class Alumno extends Model
 {
     protected $table = "alumno";
+     protected $hidden = [
+    'contraseña',
+    'remember_token',
+];
 
 //Recuperar nivelees y profesores (funcion Recargar())
     public function nivel(){

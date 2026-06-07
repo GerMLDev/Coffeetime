@@ -10,6 +10,10 @@ use App\Models\Nivel;
 class Profesor extends Model
 {
     protected $table = "profesor";
+     protected $hidden = [
+    'contrasena_prof',
+    'remember_token',
+];
     //Recuperar niveles
 
     public function nivel()

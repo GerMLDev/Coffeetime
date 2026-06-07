@@ -40,31 +40,30 @@
                     Cerrar Sesión
                 </button>
             </form>
-
         </div>
-        <hr>
-
         <div class="container mt-5">
             <h3 class="display-4 text-center text-dark py-3 border-bottom border-top border-dark">
                 Selecciona el profesor </h3>
-            <table id="tablaProfesor" class="table table-striped" data-niveles='@json($niveles)'
-                data-listar="{{ route('profesor.recargar') }}" data-editar="{{ route('profesor.editar', ':id') }}"
-                data-actualizar="{{ route('profesor.actualizar', ':id') }}"
-                data-eliminar="{{ route('profesor.eliminar', ':id') }}" data-csrf="{{ csrf_token() }}">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>DNI</th>
-                        <th>Email</th>
-                        <th>Nivel</th>
+            <div class="table-responsive">
+                <table id="tablaProfesor" class="table table-striped" data-niveles='@json($niveles)'
+                    data-listar="{{ route('profesor.recargar') }}" data-editar="{{ route('profesor.editar', ':id') }}"
+                    data-actualizar="{{ route('profesor.actualizar', ':id') }}"
+                    data-eliminar="{{ route('profesor.eliminar', ':id') }}" data-csrf="{{ csrf_token() }}">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>DNI</th>
+                            <th>Email</th>
+                            <th>Nivel</th>
 
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
 
             @if (auth()->user()->hasRole('admin'))
                 <!-- Modal para editar -->
@@ -151,6 +150,7 @@
         </div>
     </div>
     <script src="{{ asset('js/gestionarProfesor.js') }}"></script>
+    <script src="{{ asset('js/validargeneral.js') }}"></script>
 </body>
 
 </html>

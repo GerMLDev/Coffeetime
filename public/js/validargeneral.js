@@ -187,6 +187,89 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!relleno) e.preventDefault();
         });
     }
+
+    // ALUMNO editar
+    var formAlumnoEdit = document.getElementById("alumno-edit-form");
+    if (formAlumnoEdit) {
+        formAlumnoEdit.addEventListener("submit", function (e) {
+            var relleno = true;
+            relleno =
+                validarCampo(formAlumnoEdit.querySelector('[name="nombre"]')) &&
+                relleno;
+            relleno =
+                validarCampo(formAlumnoEdit.querySelector('[name="apellidos"]')) &&
+                relleno;
+            relleno =
+                validarEmail(formAlumnoEdit.querySelector('[name="email"]')) &&
+                relleno;
+            relleno =
+                validarDNI(formAlumnoEdit.querySelector('[name="dni"]')) &&
+                relleno;
+            relleno =
+                validarCampo(formAlumnoEdit.querySelector('[name="usuario"]')) &&
+                relleno;
+            var passAlumno = formAlumnoEdit.querySelector('[name="contraseña"]');
+            if (passAlumno && passAlumno.value.trim()) {
+                relleno = validarPassword(passAlumno) && relleno;
+            }
+            if (!relleno) e.preventDefault();
+        });
+    }
+
+    // PROFESOR editar
+    var formProfesorEdit = document.getElementById("profesor-edit-form");
+    if (formProfesorEdit) {
+        formProfesorEdit.addEventListener("submit", function (e) {
+            var relleno = true;
+            relleno =
+                validarCampo(
+                    formProfesorEdit.querySelector('[name="nombre_profesor"]'),
+                ) && relleno;
+            relleno =
+                validarCampo(
+                    formProfesorEdit.querySelector('[name="apellidos_profesor"]'),
+                ) && relleno;
+            relleno =
+                validarEmail(
+                    formProfesorEdit.querySelector('[name="email_profesor"]'),
+                ) && relleno;
+            relleno =
+                validarDNI(
+                    formProfesorEdit.querySelector('[name="dni_profesor"]'),
+                ) && relleno;
+            relleno =
+                validarCampo(
+                    formProfesorEdit.querySelector('[name="usuario_prof"]'),
+                ) && relleno;
+            var passProfesor = formProfesorEdit.querySelector('[name="contrasena_prof"]');
+            if (passProfesor && passProfesor.value.trim()) {
+                relleno = validarPassword(passProfesor) && relleno;
+            }
+            if (!relleno) e.preventDefault();
+        });
+    }
+
+    // USUARIO editar
+    var formUsuarioEdit = document.getElementById("usuario-edit-form");
+    if (formUsuarioEdit) {
+        formUsuarioEdit.addEventListener("submit", function (e) {
+            var relleno = true;
+            relleno =
+                validarCampo(formUsuarioEdit.querySelector('[name="usuario"]')) &&
+                relleno;
+            var passUsuario = formUsuarioEdit.querySelector('[name="contraseña"]');
+            if (passUsuario && passUsuario.value.trim()) {
+                relleno = validarPassword(passUsuario) && relleno;
+            }
+            relleno =
+                validarDNI(formUsuarioEdit.querySelector('[name="dni"]')) &&
+                relleno;
+            relleno =
+                validarEmail(formUsuarioEdit.querySelector('[name="email"]')) &&
+                relleno;
+            if (!relleno) e.preventDefault();
+        });
+    }
 });
 function mostrarError(campo, mensaje) {
 

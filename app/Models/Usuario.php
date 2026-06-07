@@ -13,6 +13,10 @@ class Usuario extends Authenticatable {
     use HasFactory, Notifiable;
 
     protected $table = "usuario";
+    protected $hidden = [
+    'contraseña',
+    'remember_token',
+];
 
     // Devuelve la contraseña para auth
     public function getAuthPassword()

@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         headers: {
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": csrf,
+                            "Accept": "application/json",
                         },
                         body: JSON.stringify({ _token: csrf }),
                     })
@@ -153,11 +154,13 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("submit", function (event) {
             event.preventDefault();
             var formData = new FormData(this);
-
-            fetch(actualizar.replace(":id", formData.get("id")), {
+            var url = actualizar.replace(":id", formData.get("id"));
+            console.log("URL actualizar:", url);
+            fetch(url, {
                 method: "POST",
                 headers: {
                     "X-CSRF-TOKEN": csrf,
+                    "Accept": "application/json",
                 },
                 body: formData,
             })
@@ -166,9 +169,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (json.status === 200) {
                         alert(json.message);
                         this.reset();
-                        new bootstrap.Modal(
+                        bootstrap.Modal.getInstance(
                             document.getElementById("editModal"),
                         ).hide();
+
                         tabla.ajax.reload();
                     } else {
                         alert(json.message);

@@ -25,7 +25,6 @@
         </script>
     @endif
 </head>
-
 <body class="bg-dark">
     <div class="container mt-5 bg-light p-4 rounded shadow contenedor-formulario">
         <h1 class="text-center titulo-pagina-amarillo">Gestionar Usuario</h1>
@@ -34,20 +33,18 @@
             <a href="{{ route('gestor') }}" class="btn btn-outline-secondary">
                 Volver al gestor
             </a>
-
             <form action="{{ route('logout') }}" method="POST" class="m-0">
                 @csrf
                 <button type="submit" class="btn btn-outline-danger">
                     Cerrar Sesión
                 </button>
             </form>
-
         </div>
-        <hr>
         <div class="container mt-5">
             <h3 class="display-4 text-center text-dark py-3 border-bottom border-top border-dark">
                 Selecciona el usuario
             </h3>
+            <div class="table-responsive">
             <table id="tablaUsuario" class="table table-striped" data-listar="{{ route('usuario.recargar') }}"
                 data-editar="{{ route('usuario.editar', ':id') }}"
                 data-actualizar="{{ route('usuario.actualizar', ':id') }}"
@@ -63,6 +60,7 @@
                 </thead>
                 <tbody></tbody>
             </table>
+            </div>
 
             @if (auth()->user()->hasRole('admin'))
                 <!-- Modal para editar -->
@@ -104,14 +102,6 @@
                                             <input type="email" id="email" name="email" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label for="rol">Rol</label>
-                                            <select name="rol" id="rol" class="form-control">
-                                            </select>
-                                        </div>
-                                    </div>
-
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -126,6 +116,7 @@
         </div>
     </div>
     <script src="{{ asset('js/gestionarUsuario.js') }}"></script>
+    <script src="{{ asset('js/validargeneral.js') }}"></script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@ class ControladorAlumno extends Controller
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'dni' => 'required|string|regex:/^\d{8}[A-Z]$/|unique:alumno,dni',
+            'dni' => 'required|string|max:9|unique:alumno,dni',
             'usuario' => 'required|string|max:255|unique:alumno,usuario',
             'contraseña' => 'required|string|min:8',
             'idnivel' => 'required|integer|exists:nivel,id',
@@ -88,7 +88,7 @@ class ControladorAlumno extends Controller
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'dni' => 'required|string|regex:/^\d{8}[A-Z]$/|unique:alumno,dni',
+            'dni' => 'required|string|max:9|unique:alumno,dni',
             'usuario' => 'required|string|max:255|unique:alumno,usuario',
             'contraseña' => 'required|string|min:8',
             'idnivel' => 'required|integer|exists:nivel,id',
@@ -171,14 +171,48 @@ class ControladorAlumno extends Controller
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:alumno,email,' . $id,
-            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:alumno,dni,' . $id,
+            'dni' => 'required|string|max:9|unique:alumno,dni,' . $id,
             'usuario' => 'required|string|max:255|unique:alumno,usuario,' . $id,
             'contraseña' => 'nullable|string|min:8',
             'nivel' => 'required|integer|exists:nivel,id',
             'profesor' => 'required|integer|exists:profesor,id',
         ]);
 
+
+        //Control de duplicidad en Usuario, por si a la hora de editar un alumno, hacemos coincidir registros con otros usuarios
+
         $alumno = Alumno::findOrFail($id);
+        $Usuarioanterior = $alumno->usuario;
+        $emailantiguo = $alumno->email;
+        $dniantiguo = $alumno->dni;
+
+        $usuarioActualId = Usuario::where('usuario', $Usuarioanterior)
+            ->orWhere('email', $emailantiguo)
+            ->orWhere('dni', $dniantiguo)
+            ->value('id');
+
+        // Consulta para buscar ids como el del alumno
+
+        $consultaDuplicados = Usuario::query();
+        if ($usuarioActualId) {
+            $consultaDuplicados->where('id', '!=', $usuarioActualId);
+        }
+
+        // Busca si los nuevos datos ya existen
+        $usuarioDuplicado = $consultaDuplicados->where(function ($query) use ($request) {
+            $query->where('usuario', $request->usuario)
+                ->orWhere('email', $request->email)
+                ->orWhere('dni', $request->dni);
+        })
+            ->first();
+
+        if ($usuarioDuplicado) {
+            return response()->json([
+                'status' => 422,
+                'message' => 'El nombre de usuario, email o DNI ya está en uso por otra cuenta.'
+            ], 422);
+        }
+
         $alumno->nombre = $request->nombre;
         $alumno->apellidos = $request->apellidos;
         $alumno->email = $request->email;
@@ -192,6 +226,18 @@ class ControladorAlumno extends Controller
         $alumno->idrol = 3;
 
         $alumno->save();
+
+        $usuario = Usuario::find($usuarioActualId);
+
+        if ($usuario) {
+            $usuario->usuario = $request->usuario;
+            $usuario->email = $request->email;
+            $usuario->dni = $request->dni;
+            if ($request->filled('contraseña')) {
+                $usuario->contraseña = Hash::make($request->contraseña);
+            }
+            $usuario->save();
+        }
 
         return response()->json([
             'status' => 200,
@@ -252,7 +298,8 @@ class ControladorAlumno extends Controller
         $datos = (new Alumno())->getAlumnosPorProfesor();
 
         // Solo carga los alumnos del profe logueado
-        $misAlumnos = Alumno::where('idprofesor', Auth::user()->id)->get();
+        $profeFicha = Profesor::where('usuario_prof', Auth::user()->usuario)->first();
+        $misAlumnos = $profeFicha ? Alumno::where('idprofesor', $profeFicha->id)->get() : collect();
 
         return view('dashboardProfe', [
             'datos' => $datos,
@@ -306,7 +353,7 @@ class ControladorAlumno extends Controller
                 $perfil->apellidos_profesor = $request->apellidos_profesor;
                 $perfil->email_profesor = $request->email;
                 if ($request->filled('contraseña')) {
-                    $perfil->contrasena_prof = $request->contraseña;
+                    $perfil->contrasena_prof = Hash::make($request->contraseña);
                 }
             }
         }

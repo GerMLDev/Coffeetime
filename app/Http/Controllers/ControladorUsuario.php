@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
-use App\Models\Rol;
 use Illuminate\Support\Facades\Hash;
 
 class ControladorUsuario extends Controller
@@ -19,7 +18,7 @@ class ControladorUsuario extends Controller
             'usuario' => 'required|string|max:255|unique:usuario,usuario',
             'contraseña' => 'required|string|min:8',
             'email' => 'required|email|max:255|unique:usuario,email',
-            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:usuario,dni,',
+            'dni' => 'required|string|max:9|unique:usuario,dni',
             'idrol' => 'required|integer|exists:rol,id',
         ]);
 
@@ -61,7 +60,7 @@ class ControladorUsuario extends Controller
             'usuario' => 'required|string|max:255|unique:usuario,usuario',
             'contraseña' => 'required|string|min:8',
             'email' => 'required|email|max:255|unique:usuario,email',
-            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:usuario,dni,',
+            'dni' => 'required|string|max:9|unique:usuario,dni',
             'idrol' => 'required|integer|exists:rol,id',
         ]);
 
@@ -109,12 +108,10 @@ class ControladorUsuario extends Controller
     // Carga los datos del usuario para editar desde AJAX
     public function editar($id){
         $usuario = Usuario::where('id', $id)->first();
-        $roles = Rol::all();
 
         return response()->json([
             'status' => 200,
             'usuario' => $usuario,
-            'roles' => $roles
         ]);
     }
 
@@ -127,8 +124,7 @@ class ControladorUsuario extends Controller
             'usuario' => 'required|string|max:255|unique:usuario,usuario,' . $id,
             'contraseña' => 'nullable|string|min:8',
             'email' => 'required|email|max:255|unique:usuario,email,' . $id,
-            'dni' => 'required|string|max:9|regex:/^\d{8}[A-Z]$/|unique:usuario,dni,' . $id,
-            'rol' => 'required|integer|exists:rol,id',
+            'dni' => 'required|string|max:9|unique:usuario,dni,' . $id,
         ]);
 
         $usuario = Usuario::findOrFail($id);
@@ -138,7 +134,6 @@ class ControladorUsuario extends Controller
         }
         $usuario->email = $request->email;
         $usuario->dni = $request->dni;
-        $usuario->idrol = $request->rol;
 
         $usuario->save();
 

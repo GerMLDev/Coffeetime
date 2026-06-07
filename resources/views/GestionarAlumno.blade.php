@@ -42,110 +42,114 @@
             </form>
 
         </div>
-        <hr>
         <div class="container mt-5">
             <h3 class="display-4 text-center text-dark py-3 border-bottom border-top border-dark">
                 Selecciona el alumno</h3>
+            <div class="table-responsive">
+                <table id="tablaAlumno" class="table table-striped table-responsive"
+                    data-listar="{{ route('alumno.recargar') }}" data-editar="{{ route('alumno.editar', ':id') }}"
+                    data-actualizar="{{ route('alumno.actualizar', ':id') }}"
+                    data-eliminar="{{ route('alumno.eliminar', ':id') }}" data-csrf="{{ csrf_token() }}">
+                    <thead>
+                        <tr>
+                            <th>DNI</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Email</th>
+                            <th>Nivel</th>
+                            <th>Profesor</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
 
-            <table id="tablaAlumno" class="table table-striped" data-listar="{{ route('alumno.recargar') }}"
-                data-editar="{{ route('alumno.editar', ':id') }}"
-                data-actualizar="{{ route('alumno.actualizar', ':id') }}"
-                data-eliminar="{{ route('alumno.eliminar', ':id') }}" data-csrf="{{ csrf_token() }}">
-                <thead>
-                    <tr>
-                        <th>DNI</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Email</th>
-                        <th>Nivel</th>
-                        <th>Profesor</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-
-            @if (auth()->user()->hasRole('admin'))
-                <!-- Modal para editar -->
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel">Editar alumno</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="alumno-edit-form" method="POST" action="#">
-                                    <input type="hidden" id="edit-id" name="id" class="form-control" readonly>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>Nombre</label>
-                                            <input type="text" id="nombre" name="nombre" class="form-control">
+                @if (auth()->user()->hasRole('admin'))
+                    <!-- Modal para editar -->
+                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                        aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Editar alumno</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="alumno-edit-form" method="POST" action="#">
+                                        <input type="hidden" id="edit-id" name="id" class="form-control"
+                                            readonly>
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>Nombre</label>
+                                                <input type="text" id="nombre" name="nombre"
+                                                    class="form-control">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>Apellidos</label>
-                                            <input type="text" id="apellidos" name="apellidos" class="form-control">
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>Apellidos</label>
+                                                <input type="text" id="apellidos" name="apellidos"
+                                                    class="form-control">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>Email</label>
-                                            <input type="text" id="email" name="email" class="form-control">
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>Email</label>
+                                                <input type="text" id="email" name="email"
+                                                    class="form-control">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>DNI</label>
-                                            <input type="text" id="dni" name="dni" class="form-control">
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>DNI</label>
+                                                <input type="text" id="dni" name="dni"
+                                                    class="form-control">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>Usuario</label>
-                                            <input type="text" id="usuario" name="usuario" class="form-control">
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>Usuario</label>
+                                                <input type="text" id="usuario" name="usuario"
+                                                    class="form-control">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>Contraseña</label>
-                                            <input type="password" id="contraseña" name="contraseña"
-                                                class="form-control">
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>Contraseña</label>
+                                                <input type="password" id="contraseña" name="contraseña"
+                                                    class="form-control">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>Nivel</label>
-                                            <select name="nivel" id="nivel" class="form-control"></select>
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>Nivel</label>
+                                                <select name="nivel" id="nivel" class="form-control"></select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg">
-                                            <label>Profesor</label>
-                                            <select name="profesor" id="profesor" class="form-control"></select>
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <label>Profesor</label>
+                                                <select name="profesor" id="profesor" class="form-control"></select>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger"
-                                    data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-success"
-                                    form="alumno-edit-form">Guardar</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success"
+                                        form="alumno-edit-form">Guardar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endif
-
-
-
+                @endif
+            </div>
         </div>
-    </div>
-    <script src="{{ asset('js/gestionarAlumno.js') }}" ></script>
+        <script src="{{ asset('js/gestionarAlumno.js') }}"></script>
+        <script src="{{ asset('js/validargeneral.js') }}"></script>
 </body>
 
 </html>

@@ -80,13 +80,14 @@ class ControladorProfesor extends Controller
     {
         $profesor = Profesor::find($id);
 
-        return view('editarprofesor', [
-            'profesor' => $profesor
+        return response()->json([
+            'status' => 200,
+            'profesor' => $profesor,
         ]);
     }
 
     // Actualiza los datos de un profesor, y sincroniza su usuario asociado
-    public function actualizar($id, Request $request)
+    public function actualizar(Request $request, $id)
     {
         $request->validate([
             'nombre_profesor' => 'required|string|max:255',
@@ -95,10 +96,29 @@ class ControladorProfesor extends Controller
             'dni_profesor' => 'required|string|max:20|unique:profesor,dni_profesor,' . $id,
             'usuario_prof' => 'required|string|max:255|unique:profesor,usuario_prof,' . $id,
             'contrasena_prof' => 'nullable|string|min:8',
-            'idnivel' => 'required|integer|exists:nivel,id',
+            'nivel' => 'required|integer|exists:nivel,id',
         ]);
 
         $profesor = Profesor::findOrFail($id);
+
+        //Control de duplicidad en Usuario, por si a la hora de editar un profesor, hacemos coincidir registros
+        $usuarioDuplicado = Usuario::where('id', '!=', $profesor->idusuario)
+            ->where(function ($query) use ($request) {
+                $query->where('usuario', $request->usuario_prof)
+                    ->orWhere('email', $request->email_profesor)
+                    ->orWhere('dni', $request->dni_profesor);
+            })
+            ->first();
+
+        if ($usuarioDuplicado) {
+            return response()->json([
+                'status' => 422,
+                'message' => 'El nombre de usuario, email o DNI ya está en uso por otra cuenta.'
+            ], 422);
+        }
+
+        //se pasan los datos y se actualiza la información en ambos
+
         $profesor->nombre_profesor = $request->nombre_profesor;
         $profesor->apellidos_profesor = $request->apellidos_profesor;
         $profesor->email_profesor = $request->email_profesor;
@@ -107,7 +127,7 @@ class ControladorProfesor extends Controller
         if ($request->filled('contrasena_prof')) {
             $profesor->contrasena_prof = Hash::make($request->contrasena_prof);
         }
-        $profesor->idnivel = $request->idnivel;
+        $profesor->idnivel = $request->nivel;
         $profesor->idrol = 2;
 
         $this->sincronizarUsuarioProfesor($profesor, $request);
@@ -159,7 +179,7 @@ class ControladorProfesor extends Controller
 
             $idUsuario = $profesor->idusuario;
 
-        //Borramos todo registro del profesor en una transacción, si falla el borrado de uno, no se borra el otro
+            //Borramos todo registro del profesor en una transacción, si falla el borrado de uno, no se borra el otro
 
             DB::transaction(function () use ($profesor, $idUsuario) {
                 $profesor->delete();
@@ -174,7 +194,7 @@ class ControladorProfesor extends Controller
             ]);
 
 
-        //Control de error 'deleteoncascade'
+            //Control de error 'deleteoncascade'
 
         } catch (\Exception $e) {
             return response()->json([
