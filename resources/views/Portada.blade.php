@@ -123,7 +123,7 @@
                     <li>
                         <strong>Explora los próximos coffeetimes</strong>
                         <p>En la sección Mis Eventos encontrarás todas las sesiones programadas para tu nivel. Cada
-                            evento indica el tema de conversación, el aforo disponible y el horario.</p>
+                            evento indica el tema de conversación y el horario.</p>
                     </li>
                     <li>
                         <strong>Reserva tu plaza</strong>

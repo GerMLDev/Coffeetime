@@ -9,9 +9,10 @@ body {
     background-color: #efebea;
     font-family: "Source Serif Pro";
     background-image: url("../images/body-background.png");
-    background-position: center;
+    background-size: auto;
+    background-attachment: fixed;
+    background-position: top left;
     background-repeat: repeat;
-    background-size: contain;
     font-size: 14pt;
 }
 
@@ -23,7 +24,7 @@ header {
     flex-direction: row;
     background-image: url("../images/cabecerocoffeetiime.png");
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: contain;
 }
 

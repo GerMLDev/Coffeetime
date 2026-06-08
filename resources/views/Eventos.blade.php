@@ -157,7 +157,7 @@
                                             </div>
                                             <div class="row mb-2">
                                                 <div class="col-lg">
-                                                    <label>Hora</label>
+                                                    <label>Caduca*</label>
                                                     <input type="time" id="hora" name="hora"
                                                         class="form-control">
                                                 </div>
@@ -204,6 +204,7 @@
                                                 </div>
                                             @endif
                                         </form>
+                                        <p>*Las salas se abrirán 30 min antes de la hora de caducidad.</p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger"
