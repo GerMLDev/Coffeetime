@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\Alumno;
+use App\Models\Profesor;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class ControladorUsuario extends Controller
 {
@@ -145,15 +148,27 @@ class ControladorUsuario extends Controller
     }
 
 
-    // Borra un usuario y devuelve resultado JSON
+    // Borra un usuario y su registro de profesor o alumno asociado
     public function eliminarData($id)
     {
-        $usuario = Usuario::where('id', $id)->first();
-        $usuario->delete();
+        $usuario = Usuario::find($id);
+
+        if (! $usuario) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Usuario no encontrado.'
+            ], 404);
+        }
+
+        DB::transaction(function () use ($usuario) {
+            Profesor::where('idusuario', $usuario->id)->delete();
+            Alumno::where('usuario', $usuario->usuario)->delete();
+            $usuario->delete();
+        });
 
         return response()->json([
             'status' => 200,
-            'message' => 'Usuario borrado correctamente'
+            'message' => 'Usuario y registro asociado borrados correctamente.'
         ]);
     }
 

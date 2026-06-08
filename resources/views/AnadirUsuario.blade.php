@@ -36,7 +36,7 @@
 
         </div>
         <hr>
-        <form id="usuario-crear-form" action="{{ route('registrousuario') }}" method="post" class="bg-light p-2 rounded shadow-sm">
+        <form id="usuario-crear-form" action="{{ route('registrousuario') }}" method="post" novalidate class="bg-light p-2 rounded shadow-sm">
     @csrf
     <div class="row">
         <div class="col-12 col-md-6">

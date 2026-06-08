@@ -28,7 +28,7 @@
             <button type="button" id="hamburguesa">&#9776;</button>
 
             <ul id="principal">
-                <li><a href="{{ route('home') }}"><i class="bi bi-house-door-fill me-2"></i>Portada</a></li>
+                <li><a class="seleccionada" href="{{ route('home') }}"><i class=" bi bi-house-door-fill me-2"></i>Portada</a></li>
                 <li><a href="{{ route('eventos') }}"><i class="bi bi-calendar-event-fill me-2"></i>Eventos</a></li>
                 <li><a href="{{ route('recursos') }}"><i class="bi bi-folder-fill me-2"></i>Recursos</a></li>
                 <li><a href="{{ route('informate') }}"><i class="bi bi-info-circle-fill me-2"></i>Infórmate</a></li>

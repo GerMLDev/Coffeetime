@@ -41,6 +41,26 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
         }
     }
+    //valida que la fecha no sea anterior a hoy
+    function validarFechaHoy(campo) {
+        var valor = campo.value.trim();
+        if (!valor) {
+            campo.style.border = "2px solid red";
+            mostrarError(campo, "Este campo es obligatorio.");
+            return false;
+        }
+        var fechaSeleccionada = new Date(valor);
+        var hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        if (fechaSeleccionada < hoy) {
+            campo.style.border = "2px solid red";
+            mostrarError(campo, "La fecha no puede ser anterior a hoy.");
+            return false;
+        }
+        campo.style.border = "";
+        limpiarError(campo);
+        return true;
+    }
     //valida contraseña
     function validarPassword(campo) {
         if (campo.value.length < 8) {
@@ -164,7 +184,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 validarCampo(formEvento.querySelector('[name="titulo"]')) &&
                 relleno;
             relleno =
-                validarCampo(formEvento.querySelector('[name="fecha"]')) &&
+                validarFechaHoy(formEvento.querySelector('[name="fecha"]')) &&
+                relleno;
+            relleno =
+                validarCampo(formEvento.querySelector('[name="hora"]')) &&
                 relleno;
             relleno =
                 validarCampo(formEvento.querySelector('[name="enlace"]')) &&

@@ -75,9 +75,24 @@ document.addEventListener("DOMContentLoaded", function () {
     if (form) {
         form.addEventListener("submit", function (e) {
             e.preventDefault();
+            var titulo = this.querySelector('[name="titulo"]');
+            var fecha = this.querySelector('[name="fecha"]');
+            var hora = this.querySelector('[name="hora"]');
+            var enlace = this.querySelector('[name="enlace"]');
+
+            var valid = true;
+            valid = validarCampo(titulo) && valid;
+            valid = validarFechaHoy(fecha) && valid;
+            valid = validarCampo(hora) && valid;
+            valid = validarCampo(enlace) && valid;
+
+            if (!valid) {
+                return;
+            }
+
             fetch(crear, {
                 method: "POST",
-                headers: { "X-CSRF-TOKEN": csrf },
+                headers: { "X-CSRF-TOKEN": csrf, "Accept": "application/json" },
                 body: new FormData(this)
             })
             .then(r => r.json())
@@ -102,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(eliminar.replace(":id", id), {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json", "X-CSRF-TOKEN": csrf },
-                body: JSON.stringify({ _token: csrf })
+                body: JSON.stringify({ _token: csrf }),
             })
             .then(r => r.json())
             .then(json => {

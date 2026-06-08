@@ -9,6 +9,7 @@ use App\Models\Nivel;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ControladorAlumno extends Controller
@@ -256,17 +257,26 @@ class ControladorAlumno extends Controller
         ]);
     }
 
-    // Elimina un alumno por id
+    // Elimina un alumno por id y el usuario asociado
     public function eliminarData($id)
     {
+        $alumno = Alumno::find($id);
 
-        $alumno = Alumno::where('id', $id)->first();
+        if (! $alumno) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Alumno no encontrado.'
+            ], 404);
+        }
 
-        $alumno->delete();
+        DB::transaction(function () use ($alumno) {
+            Usuario::where('usuario', $alumno->usuario)->delete();
+            $alumno->delete();
+        });
 
         return response()->json([
             'status' => 200,
-            'message' => 'Alumno borrado correctamente'
+            'message' => 'Alumno y usuario asociado borrados correctamente.'
         ]);
     }
     // Recarga alumnos con su profe y nivel para la tabla

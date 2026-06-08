@@ -109,7 +109,7 @@ class ControladorEvento extends Controller
 
         $validaciones = [
             'titulo' => 'required|string|max:255',
-            'fecha' => 'required|date',
+            'fecha' => 'required|date|after_or_equal:today',
             'hora' => 'required|string|max:50',
             'enlace' => 'required|string|max:2048',
             'idnivel' => 'required|integer|exists:nivel,id',
@@ -173,7 +173,7 @@ class ControladorEvento extends Controller
     public function mostrarData()
     {
         $niveles    = Nivel::all();
-        $profesores = Profesor::all();
+        $profesores = Profesor::with('nivel')->get();
         return view('eventos', compact('niveles', 'profesores'));
     }
 

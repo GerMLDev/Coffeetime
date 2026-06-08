@@ -46,7 +46,7 @@
                                 <li><a href="{{ route('gestor') }}"><i class="bi bi-database-fill-gear me-2"></i>Gestor de
                                         datos</a></li>
                             @elseif (auth()->user()->hasRole('profesor'))
-                                <li><a href="{{ route('perfil') }}"><i class="bi bi-person-vcard-fill me-2"></i>Mi
+                                <li><a class="seleccionada" href="{{ route('perfil') }}"><i class="bi bi-person-vcard-fill me-2"></i>Mi
                                         perfil</a>
                                 </li>
                             @elseif (auth()->user()->hasRole('alumno'))
